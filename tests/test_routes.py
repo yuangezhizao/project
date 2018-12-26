@@ -14,6 +14,10 @@ class TestClass(object):
     def teardown_class(self):
         pass
 
-    def test_hello_world(self):
-        response = self.app.get('/')
+    def test_route_hello_world(self):
+        response = self.app.get('/hello_world')
         assert b'Hello World!' == response.data
+
+    def test_route_index(self):
+        response = self.app.get('/')
+        assert b'yuangezhizao' in response.data
