@@ -1,11 +1,17 @@
 from flask import Flask, render_template
+import os
 
+from main.settings import config
 from main.blueprints.main import main_bp
 
 
-def create_app():
+def create_app(config_name=None):
+    if config_name is None:
+        config_name = os.getenv('FLASK_CONFIG', 'default')
 
     app = Flask(__name__)
+
+    app.config.from_object(config[config_name])
 
     register_blueprints(app)
     register_errorhandlers(app)
