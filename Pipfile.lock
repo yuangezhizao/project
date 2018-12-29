@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "492a59810ffd10ce208f785fb2ddef781e209a2f7b851040d2cefee32fbc2181"
+            "sha256": "226240eaa5f825265dcf8c67b5a7c633f4569e0813b61a7e31d5c3bf6ed09cfe"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -29,6 +29,10 @@
         ]
     },
     "default": {
+        "blinker": {
+            "hashes": [],
+            "version": "==1.4"
+        },
         "click": {
             "hashes": [],
             "version": "==7.0"
@@ -36,6 +40,18 @@
         "flask": {
             "hashes": [],
             "version": "==1.0.2"
+        },
+        "flask-login": {
+            "hashes": [],
+            "version": "==0.4.1"
+        },
+        "flask-sqlalchemy": {
+            "hashes": [],
+            "version": "==2.3.2"
+        },
+        "flask-whooshee": {
+            "hashes": [],
+            "version": "==0.6.0"
         },
         "itsdangerous": {
             "hashes": [],
@@ -49,9 +65,21 @@
             "hashes": [],
             "version": "==1.1.0"
         },
+        "python-dotenv": {
+            "hashes": [],
+            "version": "==0.10.1"
+        },
+        "sqlalchemy": {
+            "hashes": [],
+            "version": "==1.2.15"
+        },
         "werkzeug": {
             "hashes": [],
             "version": "==0.14.1"
+        },
+        "whoosh": {
+            "hashes": [],
+            "version": "==2.7.4"
         }
     },
     "develop": {}

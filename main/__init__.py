@@ -1,8 +1,13 @@
 from flask import Flask, render_template
 import os
+import click
 
 from main.settings import config
 from main.blueprints.main import main_bp
+from main.blueprints.auth import auth_bp
+from main.blueprints.user import user_bp
+from main.plugins.extensions import db, login_manager, whooshee
+from main.models.user import Role
 
 
 def create_app(config_name=None):
@@ -13,14 +18,24 @@ def create_app(config_name=None):
 
     app.config.from_object(config[config_name])
 
+    register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)
+    register_commands(app)
 
     return app
 
 
+def register_extensions(app):
+    db.init_app(app)
+    login_manager.init_app(app)
+    whooshee.init_app(app)
+
+
 def register_blueprints(app):
     app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(user_bp, url_prefix='/user')
 
 
 def register_errorhandlers(app):
@@ -43,3 +58,15 @@ def register_errorhandlers(app):
     @app.errorhandler(500)
     def internal_server_error(e):
         return render_template('errors/500.html'), 500
+
+
+def register_commands(app):
+    @app.cli.command()
+    def init():
+        click.echo('初始化数据库……')
+        db.create_all()
+
+        click.echo('初始化角色和权限……')
+        Role.init_role()
+
+        click.echo('初始化完成！')

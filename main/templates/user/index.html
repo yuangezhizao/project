@@ -1,0 +1,21 @@
+{% extends "/base.html" %}
+
+{% block title %}用户{% endblock %}
+
+{% block content %}
+    <div class="ui tall stacked segment">
+        <div class="ui divided items">
+            <div class="item">
+                <div class="content">
+                    <h3>用户信息</h3>
+                    <div class="ui divided selection list">
+                        <div class="ui attached red segment">
+                            <div class="ui red horizontal label">用户名</div>
+                            {{ user.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

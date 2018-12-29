@@ -1,0 +1,46 @@
+{% extends "/base.html" %}
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+    <div id="column">
+        <h2 class="ui green image header">
+            <div class="content">
+                登录
+            </div>
+        </h2>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="ui {{ messages[0][0] }} message">
+                    <i class="close icon"></i>
+                    <div class="header">
+                    </div>
+                    {{ messages[0][1] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form id="a" class="ui large form" action="" method="POST">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <label>用户名</label>
+                    <div class="ui left icon input">
+
+                        <input class="ui input" type="text" name="username" id="email" placeholder="请输入用户名"
+                               autofocus>
+                        <i class="user icon"></i>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>密码</label>
+                    <div class="ui left icon input">
+
+                        <input class="ui input" type="password" name="password" id="password"
+                               placeholder="请输入密码">
+                        <i class="lock icon"></i>
+                    </div>
+                </div>
+                <input class="ui fluid large green submit button" type="submit" name="submit" value="登录">
+            </div>
+        </form>
+    </div>
+{% endblock %}
