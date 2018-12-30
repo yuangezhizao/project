@@ -10,7 +10,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('user.index'))
+        return redirect(url_for('user.index', id=current_user.id))
     if request.method == 'POST':
         username = request.form.get('username')
         user = User.query.filter_by(username=username).first()
