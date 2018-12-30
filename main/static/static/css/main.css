@@ -1,0 +1,39 @@
+/* https://www.biliplus.com/style/biliplus.min.css?180127 */
+
+.Biliplus-Notice {
+    color: #fff;
+    position: fixed;
+    right: 0;
+    padding: 10px;
+    width: 230px;
+    min-height: 20px;
+    line-height: 20px;
+    font-size: 15px;
+    background: #000;
+    z-index: 10;
+    opacity: .8;
+    animation-duration: .5s;
+    animation-name: notice-in;
+    word-break: break-all;
+    white-space: pre-wrap
+}
+
+.Biliplus-Notice .after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 100%;
+    height: 0;
+    width: 0;
+    border: 0 solid transparent;
+    padding: 0;
+    margin: 0
+}
+
+.hoveritem:hover>.normal,.hoveritem>.hover {
+    display: none
+}
+
+.hoveritem:hover>.hover {
+    display: inline
+}

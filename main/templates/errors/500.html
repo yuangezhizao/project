@@ -2,6 +2,11 @@
 
 {% block title %}500 Internal Server Error{% endblock %}
 
+{% block nav %}
+    <a class="active item"><i class="times icon"></i>Error</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
 {% block content %}
     <div style="text-align: center;">
         <h1>500 Internal Server Error</h1>

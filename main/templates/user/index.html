@@ -2,6 +2,11 @@
 
 {% block title %}用户{% endblock %}
 
+{% block nav %}
+    <a class="active item"><i class="users icon"></i>用户</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
 {% block content %}
     <div class="ui tall stacked segment">
         <div class="ui divided items">

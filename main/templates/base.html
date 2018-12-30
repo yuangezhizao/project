@@ -7,6 +7,7 @@
     <meta name="Copyright" content="Copyright yuangezhizao All Rights Reserved."/>
     <meta name="format-detection" content="telephone=no"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/css/main.css') }}">
     <link rel="dns-prefetch" href="//lab.yuangezhizao.cn">
     <link rel="dns-prefetch" href="//www.yuangezhizao.cn">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -22,6 +23,12 @@
             <a class="active item"><i class="home icon"></i>首页</a>
         {% endblock %}
         <div class="right menu">
+            {% if current_user.is_authenticated %}
+                <a class="item" href="{{ url_for('auth.logout') }}" onclick="return auth.logout();"><i
+                        class="sign out icon"></i>注销</a>
+            {% else %}
+                <a class="up item" href="{{ url_for('auth.login') }}"><i class="sign in icon"></i>登录</a>
+            {% endif %}
         </div>
     </div>
     {% block content %}{% endblock %}<br>
@@ -31,6 +38,41 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.js"></script>
-{% block script %}{% endblock %}
+<script>
+    _t = function (s) {
+        return s
+    };
+
+    function gEle(a) {
+        return document.getElementById(a)
+    }
+
+    function _(e, t, i) {
+        var a = null;
+        if ("text" === e) return document.createTextNode(t);
+        a = document.createElement(e);
+        for (var n in t) if ("style" === n) for (var o in t.style) a.style[o] = t.style[o]; else if ("className" === n) a.className = t[n]; else if ("event" === n) for (var o in t.event) a.addEventListener(o, t.event[o]); else a.setAttribute(n, t[n]);
+        if (i) if ("string" == typeof i) a.innerHTML = i; else if (Array.isArray(i)) for (var l = 0; l < i.length; l++) null != i[l] && a.appendChild(i[l]);
+        return a
+    }
+
+    pageConfig = {"lang": "zh"};
+
+    auth = {
+        logout: function () {
+            var msg = confirm("确认注销吗？");
+            console.log(msg);
+            if (msg) {
+                createUpdateNotice(_t("正在注销……"), "00F");
+            } else {
+                return false;
+            }
+        },
+    }
+</script>
+<script src="{{ url_for('static', filename='static/js/timeago.js') }}"></script>
+<script src="{{ url_for('static', filename='static/js/bottomscript.js') }}"></script>
+{% block script %}
+{% endblock %}
 </body>
 </html>

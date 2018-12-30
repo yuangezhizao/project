@@ -7,14 +7,14 @@ from main.blueprints.main import main_bp
 from main.blueprints.auth import auth_bp
 from main.blueprints.user import user_bp
 from main.plugins.extensions import db, login_manager, whooshee
-from main.models.user import Role
+from main.models.user import User, Role
 
 
 def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv('FLASK_CONFIG', 'default')
 
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
 
     app.config.from_object(config[config_name])
 
@@ -30,6 +30,7 @@ def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
     whooshee.init_app(app)
+    register_shell_context(app)
 
 
 def register_blueprints(app):
@@ -70,3 +71,9 @@ def register_commands(app):
         Role.init_role()
 
         click.echo('初始化完成！')
+
+
+def register_shell_context(app):
+    @app.shell_context_processor
+    def make_shell_context():
+        return dict(db=db, User=User)
