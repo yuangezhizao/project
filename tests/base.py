@@ -34,11 +34,8 @@ class BaseTestCase(unittest.TestCase):
         if username is None and password is None:
             username = 'admin'
             password = '150402207'
-
-        return self.client.post(url_for('auth.login'), data={
-            'username': username,
-            'password': password
-        }, follow_redirects=True)
+        return self.client.post(url_for('auth.login'), data=dict(username=username, password=password),
+                                follow_redirects=True)
 
     def logout(self):
         return self.client.get(url_for('auth.logout'), follow_redirects=True)
