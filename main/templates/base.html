@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <meta name="author" content="yuangezhizao"/>
-    <meta name="Copyright" content="Copyright yuangezhizao All Rights Reserved."/>
-    <meta name="format-detection" content="telephone=no"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/css/main.css') }}">
-    <link rel="dns-prefetch" href="//lab.yuangezhizao.cn">
-    <link rel="dns-prefetch" href="//www.yuangezhizao.cn">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    {% block head %}{% endblock %}
+    {% block head %}
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="author" content="yuangezhizao"/>
+        <meta name="Copyright" content="Copyright yuangezhizao All Rights Reserved."/>
+        <meta name="format-detection" content="telephone=no"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/css/main.css') }}">
+        <link rel="dns-prefetch" href="//lab.yuangezhizao.cn">
+        <link rel="dns-prefetch" href="//www.yuangezhizao.cn">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    {% endblock %}
 </head>
 <body>
 <div class="ui centered grid">
@@ -36,43 +37,45 @@
     </footer>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.js"></script>
-<script>
-    _t = function (s) {
-        return s
-    };
-
-    function gEle(a) {
-        return document.getElementById(a)
-    }
-
-    function _(e, t, i) {
-        var a = null;
-        if ("text" === e) return document.createTextNode(t);
-        a = document.createElement(e);
-        for (var n in t) if ("style" === n) for (var o in t.style) a.style[o] = t.style[o]; else if ("className" === n) a.className = t[n]; else if ("event" === n) for (var o in t.event) a.addEventListener(o, t.event[o]); else a.setAttribute(n, t[n]);
-        if (i) if ("string" == typeof i) a.innerHTML = i; else if (Array.isArray(i)) for (var l = 0; l < i.length; l++) null != i[l] && a.appendChild(i[l]);
-        return a
-    }
-
-    pageConfig = {"lang": "zh"};
-
-    auth = {
-        logout: function () {
-            var msg = confirm("确认注销吗？");
-            console.log(msg);
-            if (msg) {
-                createUpdateNotice(_t("正在注销……"), "00F");
-            } else {
-                return false;
-            }
-        },
-    }
-</script>
-<script src="{{ url_for('static', filename='static/js/timeago.js') }}"></script>
-<script src="{{ url_for('static', filename='static/js/bottomscript.js') }}"></script>
 {% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.js"></script>
+    {{ moment.include_moment(local_js='https://cdn.jsdelivr.net/npm/moment/min/moment-with-locales.min.js') }}
+    {{ moment.lang('zh-CN') }}
+    <script>
+        _t = function (s) {
+            return s
+        };
+
+        function gEle(a) {
+            return document.getElementById(a)
+        }
+
+        function _(e, t, i) {
+            var a = null;
+            if ("text" === e) return document.createTextNode(t);
+            a = document.createElement(e);
+            for (var n in t) if ("style" === n) for (var o in t.style) a.style[o] = t.style[o]; else if ("className" === n) a.className = t[n]; else if ("event" === n) for (var o in t.event) a.addEventListener(o, t.event[o]); else a.setAttribute(n, t[n]);
+            if (i) if ("string" == typeof i) a.innerHTML = i; else if (Array.isArray(i)) for (var l = 0; l < i.length; l++) null != i[l] && a.appendChild(i[l]);
+            return a
+        }
+
+        pageConfig = {"lang": "zh"};
+
+        auth = {
+            logout: function () {
+                var msg = confirm("确认注销吗？");
+                console.log(msg);
+                if (msg) {
+                    createUpdateNotice(_t("正在注销……"), "00F");
+                } else {
+                    return false;
+                }
+            },
+        }
+    </script>
+    <script src="{{ url_for('static', filename='static/js/timeago.js') }}"></script>
+    <script src="{{ url_for('static', filename='static/js/bottomscript.js') }}"></script>
 {% endblock %}
 </body>
 </html>

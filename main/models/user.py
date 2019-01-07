@@ -55,10 +55,12 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     name = db.Column(db.String(30))
     member_since = db.Column(db.DateTime, default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     role = db.relationship('Role', back_populates='users')
+    photos = db.relationship('Photo', back_populates='author', cascade='all')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}CSRF Error{% endblock %}
+
+{% block nav %}
+    <a class="active item"><i class="times icon"></i>Error</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <h1>CSRF Error</h1>
+        <h2>请求错误</h2>
+        <b>{{ reason }}</b>
+        <hr>
+        yuangezhizao©2018 - 2019
+    </div>
+{% endblock %}

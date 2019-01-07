@@ -1,4 +1,5 @@
 {% extends "/base.html" %}
+{% from 'macros.html' import photo_card with context %}
 
 {% block title %}用户{% endblock %}
 
@@ -19,6 +20,20 @@
                             {{ user.name }}
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui tall stacked segment">
+        <div class="ui divided items">
+            <div class="item">
+                <div class="content">
+                    <h3>图片</h3>
+                    {% if photos %}
+                        {% for photo in photos %}
+                            {{ photo_card(photo) }}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "226240eaa5f825265dcf8c67b5a7c633f4569e0813b61a7e31d5c3bf6ed09cfe"
+            "sha256": "dfa560c30e5a729c975de796a5f7e331e10013e6d3119dcac2c511abd5627a9f"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -29,6 +29,10 @@
         ]
     },
     "default": {
+        "alembic": {
+            "hashes": [],
+            "version": "==1.0.5"
+        },
         "blinker": {
             "hashes": [],
             "version": "==1.4"
@@ -45,6 +49,14 @@
             "hashes": [],
             "version": "==0.4.1"
         },
+        "flask-migrate": {
+            "hashes": [],
+            "version": "==2.3.1"
+        },
+        "flask-moment": {
+            "hashes": [],
+            "version": "==0.6.0"
+        },
         "flask-sqlalchemy": {
             "hashes": [],
             "version": "==2.3.2"
@@ -52,6 +64,10 @@
         "flask-whooshee": {
             "hashes": [],
             "version": "==0.6.0"
+        },
+        "flask-wtf": {
+            "hashes": [],
+            "version": "==0.14.2"
         },
         "itsdangerous": {
             "hashes": [],
@@ -61,13 +77,33 @@
             "hashes": [],
             "version": "==2.10"
         },
+        "mako": {
+            "hashes": [],
+            "version": "==1.0.7"
+        },
         "markupsafe": {
             "hashes": [],
             "version": "==1.1.0"
         },
+        "pillow": {
+            "hashes": [],
+            "version": "==5.4.1"
+        },
+        "python-dateutil": {
+            "hashes": [],
+            "version": "==2.7.5"
+        },
         "python-dotenv": {
             "hashes": [],
             "version": "==0.10.1"
+        },
+        "python-editor": {
+            "hashes": [],
+            "version": "==1.0.3"
+        },
+        "six": {
+            "hashes": [],
+            "version": "==1.12.0"
         },
         "sqlalchemy": {
             "hashes": [],
@@ -80,6 +116,10 @@
         "whoosh": {
             "hashes": [],
             "version": "==2.7.4"
+        },
+        "wtforms": {
+            "hashes": [],
+            "version": "==2.2.1"
         }
     },
     "develop": {}

@@ -1,12 +1,16 @@
 from flask import Flask, render_template
+from flask_wtf.csrf import CSRFError
+from flask_login import current_user
+from flask_migrate import Migrate
 import os
 import click
+import datetime
 
 from main.settings import config
 from main.blueprints.main import main_bp
 from main.blueprints.auth import auth_bp
 from main.blueprints.user import user_bp
-from main.plugins.extensions import db, login_manager, whooshee
+from main.plugins.extensions import db, login_manager, whooshee, csrf, moment
 from main.models.user import User, Role
 
 
@@ -22,6 +26,7 @@ def create_app(config_name=None):
     register_blueprints(app)
     register_errorhandlers(app)
     register_commands(app)
+    register_template_context(app)
 
     return app
 
@@ -31,6 +36,9 @@ def register_extensions(app):
     login_manager.init_app(app)
     whooshee.init_app(app)
     register_shell_context(app)
+    csrf.init_app(app)
+    moment.init_app(app)
+    migrate = Migrate(app, db)
 
 
 def register_blueprints(app):
@@ -43,6 +51,10 @@ def register_errorhandlers(app):
     @app.errorhandler(400)
     def bad_request(e):
         return render_template('errors/400.html'), 400
+
+    @app.errorhandler(CSRFError)
+    def csrf_error(reason):
+        return render_template('errors/csrf_error.html', reason=reason), 400
 
     @app.errorhandler(403)
     def forbidden(e):
@@ -77,3 +89,15 @@ def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
         return dict(db=db, User=User)
+
+
+def register_template_context(app):
+    @app.context_processor
+    def my_context_processor():
+        return dict(user=current_user)
+
+    @app.before_request
+    def before_request():
+        if current_user.is_authenticated:
+            current_user.last_seen = datetime.datetime.utcnow()
+            db.session.commit()

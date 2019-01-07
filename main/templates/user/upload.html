@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}上传页面{% endblock %}
+
+{% block nav %}
+    <a class="active item"><i class="image icon"></i>上传页面</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
+{% block content %}
+    <div class="ui dividing header">
+        <div class="content">
+            <h2>上传页面</h2>
+            <div class="sub header"></div>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="ui {{ messages[0][0] }} message">
+                <i class="close icon"></i>
+                <div class="header">
+                </div>
+                {{ messages[0][1] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="thirteen wide column">
+        <div class="ui tall stacked segment">
+            <form action="" class="ui form" method="post" enctype="multipart/form-data">
+                <div class="field">
+                    <label>图片</label>
+                    <div class="ui input">
+                        <input class="ui input" type="file" name="file">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>描述</label>
+                    <div class="ui input">
+                        <input class="ui input" type="text" name="description" placeholder="请输入描述……"
+                               autofocus>
+                    </div>
+                </div>
+                <br>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input class="ui positive button" type="submit" value="点击上传">
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script>
+        $('.ui.dropdown').dropdown();
+    </script>
+{% endblock %}

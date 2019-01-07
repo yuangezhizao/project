@@ -3,10 +3,12 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 from main.models.user import User
 from main.plugins.utils import redirect_back
+# from main.plugins.extensions import csrf
 
 auth_bp = Blueprint('auth', __name__)
 
 
+# @csrf.exempt
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

@@ -1,10 +1,15 @@
 from flask_login import LoginManager, AnonymousUserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask_whooshee import Whooshee
+from flask_wtf import CSRFProtect
+from flask_moment import Moment
+
 
 login_manager = LoginManager()
 db = SQLAlchemy()
 whooshee = Whooshee()
+csrf = CSRFProtect()
+moment = Moment()
 
 
 @login_manager.user_loader

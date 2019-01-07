@@ -1,0 +1,13 @@
+{% macro photo_card(photo) %}
+    <div class="ui card">
+        <a class="image" href="#">
+            <img class="ui small image" src="{{ url_for('user.get_image', filename=photo.filename_s) }}">
+        </a>
+        <div class="content">
+            <a class="header" href="#">{{ user.name }}</a>
+            <div class="meta">
+                <a>{{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}</a>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

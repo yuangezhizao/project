@@ -16,6 +16,20 @@ class BaseConfig:
 
     ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', '150402207@sut.edu.cn')
 
+    UPLOAD_PATH = os.path.join(basedir, 'uploads')
+
+    PHOTO_SIZE = {'small': 400,
+                  'medium': 800}
+
+    PHOTO_SUFFIX = {
+        PHOTO_SIZE['small']: '_s',  # thumbnail
+        PHOTO_SIZE['medium']: '_m',  # display
+    }
+
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    WHOOSHEE_MIN_STRING_LEN = 1
+
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
@@ -25,6 +39,7 @@ class DevelopmentConfig(BaseConfig):
 
 class TestingConfig(BaseConfig):
     TESTING = True
+    WTF_CSRF_ENABLED = False
 
     SQLALCHEMY_DATABASE_URI = 'sqlite:///'  # in-memory database
 

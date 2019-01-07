@@ -12,6 +12,10 @@ flask-login = "*"
 flask-sqlalchemy = "*"
 flask-whooshee = "*"
 python-dotenv = "*"
+flask-wtf = "*"
+flask-moment = "*"
+flask-migrate = "*"
+pillow = "*"
 
 
 [dev-packages]
