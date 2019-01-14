@@ -107,3 +107,9 @@ venv.bak/
 
 # Pycharm
 .idea/*
+
+# Flask-Whooshee
+whooshee/*
+
+# Uploads
+uploads/*
