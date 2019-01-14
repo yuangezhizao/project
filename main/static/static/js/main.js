@@ -1,6 +1,11 @@
 // base.html 页面底部 js 全部移至本 main.js 文件
 
+$('.message .close').on('click', function () {
+    $(this).closest('.message').transition('fade');
+});
+
 moment.locale("zh-CN");
+
 _t = function (s) {
     return s
 };

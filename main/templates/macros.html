@@ -1,6 +1,6 @@
 {% macro photo_card(photo) %}
     <div class="ui card">
-        <a class="image" href="#">
+        <a class="image" href="{{ url_for('user.show_photo', photo_id=photo.id) }}">
             <img class="ui small image" src="{{ url_for('user.get_image', filename=photo.filename_s) }}">
         </a>
         <div class="content">
@@ -10,4 +10,17 @@
             </div>
         </div>
     </div>
+{% endmacro %}
+
+{% macro message_part() %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="ui {{ messages[0][0] }} message">
+                <i class="close icon"></i>
+                <div class="header">
+                </div>
+                {{ messages[0][1] }}
+            </div>
+        {% endif %}
+    {% endwith %}
 {% endmacro %}

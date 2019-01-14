@@ -30,11 +30,3 @@
     <hr>
     <h5 style="text-align: center;">yuangezhizao©2018 - 2019</h5>
 {% endblock %}
-{% block script %}
-    {{ super() }}
-    <script>
-        $('.message .close').on('click', function () {
-            $(this).closest('.message').transition('fade');
-        });
-    </script>
-{% endblock %}
