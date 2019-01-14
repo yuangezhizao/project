@@ -54,6 +54,20 @@ class Role(db.Model):
         db.session.commit()
 
 
+class Depart(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), unique=True)
+    users = db.relationship('User', back_populates='depart')
+
+    @staticmethod
+    def init_depart():
+        depart_list = ['本科生第一支部', '本科生第二支部', '研究生第一支部', '研究生第二支部', '研究生第三支部', '教工第一支部', '教工第二支部', '计算机系支部']
+        for depart in depart_list:
+            depart = Depart(name=depart)
+            db.session.add(depart)
+        db.session.commit()
+
+
 @whooshee.register_model('name', 'username')
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -65,13 +79,16 @@ class User(db.Model, UserMixin):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
-
     role = db.relationship('Role', back_populates='users')
+    depart_id = db.Column(db.Integer, db.ForeignKey('depart.id'))
+    depart = db.relationship('Depart', back_populates='users')
+
     photos = db.relationship('Photo', back_populates='author', cascade='all')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         self.set_role()
+        self.set_depart()
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -82,6 +99,11 @@ class User(db.Model, UserMixin):
                 self.role = Role.query.filter_by(name='Administrator').first()
             else:
                 self.role = Role.query.filter_by(name='User').first()
+            db.session.commit()
+
+    def set_depart(self):
+        if self.depart is None:
+            self.depart = Depart.query.filter_by(name='本科生第一支部').first()
             db.session.commit()
 
     def validate_password(self, password):

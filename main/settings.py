@@ -14,7 +14,7 @@ else:
 class BaseConfig:
     SECRET_KEY = os.getenv('SECRET_KEY', 'esterTion')
 
-    ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', '150402207@sut.edu.cn')
+    ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', 'admin@yuangezhizao.cn')
 
     UPLOAD_PATH = os.path.join(basedir, 'uploads')
 

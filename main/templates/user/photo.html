@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import message_part with context %}
+
+{% block title %}图片详情{% endblock %}
+
+{% block nav %}
+    <a class="active item"><i class="photo icon"></i>图片详情</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
+{% block content %}
+    <div class="ui dividing header">
+        <div class="content">
+            <h2>图片详情</h2>
+            <div class="sub header"></div>
+        </div>
+    </div>
+    {{ message_part() }}
+    {% if current_user.can('SET_PUBLIC') or photo.can_public or current_user == photo.author %}
+        <div class="ui tall stacked segment">
+            <div class="item">
+                <div class="content">
+                    <h3>图片</h3>
+                    <div>
+                        <a href="{{ url_for('user.get_image', filename=photo.filename) }}" target="_blank">
+                            <img src="{{ url_for('user.get_image', filename=photo.filename_s) }}">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui tall stacked segment">
+            <h3>描述</h3>
+            <p>{{ photo.description }}</p>
+        </div>
+    {% endif %}
+    {% if current_user == photo.author %}
+        {% if photo.can_public %}
+            <div class="ui positive message">已开启公开权限</div>
+        {% else %}
+            <div class="ui negative message">未开启公开权限</div>
+        {% endif %}
+    {% endif %}
+    {% if current_user.can('SET_PUBLIC') %}
+        <div class="ui tall stacked segment">
+            <h3>操作</h3>
+            <form class="ui inline" method="post" action="{{ url_for('ins.set_public', photo_id=photo.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                {% if photo.can_public %}
+                    <button type="submit" class="ui negative button">点击关闭公开权限</button>
+                {% else %}
+                    <button type="submit" class="ui positive button">点击开启公开权限</button>
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

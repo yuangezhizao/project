@@ -10,8 +10,9 @@ from main.settings import config
 from main.blueprints.main import main_bp
 from main.blueprints.auth import auth_bp
 from main.blueprints.user import user_bp
+from main.blueprints.ins import ins_bp
 from main.plugins.extensions import db, login_manager, whooshee, csrf, moment
-from main.models.user import User, Role
+from main.models.user import User, Role, Depart
 
 
 def create_app(config_name=None):
@@ -49,6 +50,7 @@ def register_blueprints(app):
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(user_bp, url_prefix='/user')
+    app.register_blueprint(ins_bp, url_prefix='/ins')
 
 
 def register_errorhandlers(app):
@@ -97,6 +99,9 @@ def register_commands(app):
 
         click.echo('初始化角色和权限……')
         Role.init_role()
+
+        click.echo('初始化部门……')
+        Depart.init_depart()
 
         click.echo('初始化完成！')
 

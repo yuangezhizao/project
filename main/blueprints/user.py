@@ -57,3 +57,9 @@ def upload():
 @user_bp.route('/uploads/<path:filename>')
 def get_image(filename):
     return send_from_directory(current_app.config['UPLOAD_PATH'], filename)
+
+
+@user_bp.route('/photo/<int:photo_id>')
+def show_photo(photo_id):
+    photo = Photo.query.get_or_404(photo_id)
+    return render_template('user/photo.html', photo=photo)

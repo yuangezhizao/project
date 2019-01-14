@@ -19,6 +19,10 @@
                             <div class="ui red horizontal label">用户名</div>
                             {{ user.name }}
                         </div>
+                        <div class="ui attached red segment">
+                            <div class="ui blue horizontal label">所在部门</div>
+                            {{ user.depart.name }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,4 +42,5 @@
             </div>
         </div>
     </div>
+    <!-- TODO：无图片 -->
 {% endblock %}

@@ -1,7 +1,7 @@
 from tests.base import BaseTestCase
 
 from main.plugins.extensions import db
-from main.models.user import Role
+from main.models.user import Role, Depart
 
 
 class CLITestCase(BaseTestCase):
@@ -19,5 +19,7 @@ class CLITestCase(BaseTestCase):
         result = self.runner.invoke(args=['init'])
         self.assertIn('初始化数据库……', result.output)
         self.assertIn('初始化角色和权限……', result.output)
+        self.assertIn('初始化部门……', result.output)
         self.assertIn('初始化完成！', result.output)
         self.assertEqual(Role.query.count(), 4)  # 角色表行数
+        self.assertEqual(Depart.query.count(), 8)  # 部门表行数

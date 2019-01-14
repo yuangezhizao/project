@@ -11,6 +11,7 @@ class Photo(db.Model):
     filename_s = db.Column(db.String(64))
     filename_m = db.Column(db.String(64))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    can_public = db.Column(db.Boolean, default=False)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     author = db.relationship('User', back_populates='photos')

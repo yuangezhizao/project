@@ -14,7 +14,7 @@ def allowed_file(filename):
 
 def rename_image(filename):
     filename, ext = os.path.splitext(filename)
-    return filename + '_' + str(int(time.time())) + ext
+    return str(int(time.time())) + '_' + filename + ext
 
 
 def resize_image(image, filename, base_width):
