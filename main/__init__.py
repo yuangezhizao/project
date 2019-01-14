@@ -22,6 +22,10 @@ def create_app(config_name=None):
 
     app.config.from_object(config[config_name])
 
+    app.jinja_env.trim_blocks = True
+    app.jinja_env.lstrip_blocks = True
+    # app.jinja_env.auto_reload = True
+
     register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)
