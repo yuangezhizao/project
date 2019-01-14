@@ -1,3 +1,5 @@
+/* https://www.biliplus.com/js/timeago.min.js */
+
 !function (e, t) {
     "object" == typeof module && module.exports ? (module.exports = t(e), module.exports.default = module.exports) : e.timeago = t(e)
 }("undefined" != typeof window ? window : this, function () {
@@ -43,4 +45,4 @@
     }, o.prototype.setLocale = function (e) {
         this.defaultLocale = e
     }, a
-});
+});/*end*/
