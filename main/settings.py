@@ -41,6 +41,7 @@ class TestingConfig(BaseConfig):
     TESTING = True
     WTF_CSRF_ENABLED = False
 
+    WHOOSHEE_MEMORY_STORAGE = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///'  # in-memory database
 
 

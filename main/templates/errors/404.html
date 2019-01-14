@@ -10,9 +10,31 @@
 {% block content %}
     <div style="text-align: center;">
         <h1>404 Not Found</h1>
-
-        <br>小伙子你走错地方了
-        <hr>
-        yuangezhizao©2018 - 2019
+        <h5>小伙子你走错地方了</h5>
     </div>
+    {% if reason %}
+        <div class="ui negative message">
+            <div class="header">详细错误信息</div>
+            <p>{{ reason }} </p>
+        </div>
+    {% endif %}
+    <div class="ui info message">
+        <i class="close icon"></i>
+        <div class="header">附加信息</div>
+        <ul class="list">
+            <li><b>用户 IP：</b>{{ ip }}</li>
+            <li><b>请求地址：</b>{{ url }}</li>
+            <li><b>时间戳：</b>{{ moment(timestamp).format('YYYY年M月D日 h:mm:ss a') }}</li>
+        </ul>
+    </div>
+    <hr>
+    <h5 style="text-align: center;">yuangezhizao©2018 - 2019</h5>
+{% endblock %}
+{% block script %}
+    {{ super() }}
+    <script>
+        $('.message .close').on('click', function () {
+            $(this).closest('.message').transition('fade');
+        });
+    </script>
 {% endblock %}

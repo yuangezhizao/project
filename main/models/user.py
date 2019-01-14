@@ -28,9 +28,16 @@ class Role(db.Model):
     def init_role():
         roles_permissions_map = {
             'User': ['UPLOAD'],
+            'Inspector': ['UPLOAD', 'SET_PUBLIC'],
             'Moderator': ['UPLOAD', 'MODERATE'],
-            'Administrator': ['UPLOAD', 'MODERATE', 'ADMINISTER']
+            'Administrator': ['UPLOAD', 'SET_PUBLIC', 'MODERATE', 'ADMINISTER']
         }
+
+        # 权限分配：
+        # 用户：上传；
+        # 审核者一：上传、公开；
+        # 审核者二：上传、修改；
+        # 管理员：全部。
 
         for role_name in roles_permissions_map:
             role = Role.query.filter_by(name=role_name).first()

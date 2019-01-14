@@ -18,12 +18,19 @@ class BaseTestCase(unittest.TestCase):
         db.create_all()
         Role.init_role()
 
-        admin_user = User(email='150402207@sut.edu.cn', name='管理员', username='admin')
-        admin_user.set_password('150402207')
-        normal_user = User(email='root@yuangezhizao.cn', name='远哥制造', username='yuangezhizao')
-        normal_user.set_password('yuangezhizao')
+        admin_user = User(email='admin@yuangezhizao.cn', name='管理员', username='admin')
+        admin_user.set_password('admin')
 
-        db.session.add_all([admin_user, normal_user])
+        normal_user = User(email='user@yuangezhizao.cn', name='用户', username='user')
+        normal_user.set_password('user')
+
+        ins_user = User(email='ins@yuangezhizao.cn', name='审核者一', username='ins')
+        ins_user.set_password('ins')
+
+        mod_user = User(email='mod@yuangezhizao.cn', name='审核者二', username='mod')
+        mod_user.set_password('mod')
+
+        db.session.add_all([admin_user, normal_user, ins_user, mod_user])
         db.session.commit()
 
     def tearDown(self):
@@ -33,7 +40,7 @@ class BaseTestCase(unittest.TestCase):
     def login(self, username=None, password=None):
         if username is None and password is None:
             username = 'admin'
-            password = '150402207'
+            password = 'admin'
         return self.client.post(url_for('auth.login'), data=dict(username=username, password=password),
                                 follow_redirects=True)
 
