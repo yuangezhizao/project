@@ -7,7 +7,7 @@
         <meta name="author" content="yuangezhizao"/>
         <meta name="Copyright" content="Copyright yuangezhizao All Rights Reserved."/>
         <meta name="format-detection" content="telephone=no"/>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/css/semantic.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/Semantic-UI-CSS-master/semantic.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/css/main.css') }}">
         <link rel="dns-prefetch" href="//lab.yuangezhizao.cn">
         <link rel="dns-prefetch" href="//www.yuangezhizao.cn">
@@ -39,7 +39,7 @@
 </div>
 {% block script %}
     <script src="{{ url_for('static', filename='static/js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='static/js/semantic.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='static/Semantic-UI-CSS-master/semantic.min.js') }}"></script>
     {{ moment.include_moment(local_js=url_for('static', filename='static/js/moment-with-locales.min.js')) }}
     <script src="{{ url_for('static', filename='static/js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='static/js/timeago.js') }}"></script>
