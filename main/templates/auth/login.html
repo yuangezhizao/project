@@ -1,4 +1,5 @@
-{% extends "/base.html" %}
+{% extends 'base.html' %}
+{% from 'macros.html' import message_part with context %}
 
 {% block title %}登录{% endblock %}
 
@@ -14,16 +15,7 @@
                 登录
             </div>
         </h2>
-        {% with messages = get_flashed_messages(with_categories=True) %}
-            {% if messages %}
-                <div class="ui {{ messages[0][0] }} message">
-                    <i class="close icon"></i>
-                    <div class="header">
-                    </div>
-                    {{ messages[0][1] }}
-                </div>
-            {% endif %}
-        {% endwith %}
+        {{ message_part() }}
         <form id="a" class="ui large form" action="" method="POST">
             <div class="ui stacked segment">
                 <div class="field">
