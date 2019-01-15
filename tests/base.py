@@ -37,11 +37,13 @@ class BaseTestCase(unittest.TestCase):
         db.drop_all()
         self.context.pop()
 
-    def login(self, username=None, password=None):
+    def login(self, username=None, password=None, remember=False):
         if username is None and password is None:
             username = 'admin'
             password = 'admin'
-        return self.client.post(url_for('auth.login'), data=dict(username=username, password=password),
+            remember = remember
+        return self.client.post(url_for('auth.login'),
+                                data=dict(username=username, password=password, remember=remember),
                                 follow_redirects=True)
 
     def logout(self):

@@ -17,8 +17,9 @@ def login():
         username = request.form.get('username')
         user = User.query.filter_by(username=username).first()
         if user is not None and user.validate_password(request.form['password']):
-            if login_user(user):
-                return redirect_back('user.index', id=user.id)
+            remember = request.form.get('remember', False)
+            login_user(user, remember)
+            return redirect_back('user.index', id=user.id)
         flash('授权失败！', 'negative')
 
     return render_template('auth/login.html')
