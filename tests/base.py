@@ -18,16 +18,16 @@ class BaseTestCase(unittest.TestCase):
         db.create_all()
         Role.init_role()
 
-        admin_user = User(email='admin@yuangezhizao.cn', name='管理员', username='admin')
+        admin_user = User(email='admin@yuangezhizao.cn', name='管理员', username='admin', role_id=4)
         admin_user.set_password('admin')
 
-        normal_user = User(email='user@yuangezhizao.cn', name='用户', username='user')
+        normal_user = User(email='user@yuangezhizao.cn', name='用户', username='user', role_id=1)
         normal_user.set_password('user')
 
-        ins_user = User(email='ins@yuangezhizao.cn', name='审核者一', username='ins')
+        ins_user = User(email='ins@yuangezhizao.cn', name='审核者一', username='ins', role_id=2)
         ins_user.set_password('ins')
 
-        mod_user = User(email='mod@yuangezhizao.cn', name='审核者二', username='mod')
+        mod_user = User(email='mod@yuangezhizao.cn', name='审核者二', username='mod', role_id=3)
         mod_user.set_password('mod')
 
         db.session.add_all([admin_user, normal_user, ins_user, mod_user])
