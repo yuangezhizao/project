@@ -129,6 +129,7 @@
 		if (id != undefined) script.id = id;
 		document.body.appendChild(script);
 	};
+	/* 2019-1-16 11:47:23
 	window.imgClick = function () {
 		var imgs = gEle('content').getElementsByTagName('img'), i = 0, img;
 		for (; i < imgs.length; i++) {
@@ -137,6 +138,7 @@
 				img.addEventListener("click", viewimg), img.BP_viewimgAdded = true;
 		}
 	};
+	*/
 	var fixImg = function () {
 		if (/(hdslb\.com|img\.biliplus\.com)/.test(this.src)) {
 			if (/@.*?jpg$/.test(this.src)) {
@@ -228,7 +230,7 @@
 		e.stopPropagation();
 	}
 	window.viewimg = viewimg;
-	imgClick();
+	// imgClick();
 
 	String.prototype.recursiveReplace = function (replace) {
 		var replacements = [], str = this;
@@ -876,6 +878,7 @@
 		!doNotSend && xhr.send(body);
 		return xhr;
 	};
+	/*
 	window.img_lazyload = function () {
 		if (canls && localStorage.noPic == 'on') return false;
 		var imgs = Array.from(document.getElementsByTagName('img'));
@@ -891,7 +894,7 @@
 	window.addEventListener('scroll', img_lazyload);
 	window.addEventListener('resize', img_lazyload);
 	img_lazyload();
-
+*/
 	var textAutohideClickListener = function () {
 		this.className = "pretext";
 		this.removeEventListener("click", textAutohideClickListener);
