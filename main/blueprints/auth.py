@@ -16,12 +16,14 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         user = User.query.filter_by(username=username).first()
-        if user is not None and user.validate_password(request.form['password']):
+        if user is None:
+            flash('不存在的用户名！', 'negative')
+        elif not user.validate_password(request.form['password']):
+            flash('不正确的密码！', 'negative')
+        else:
             remember = request.form.get('remember', False)
             login_user(user, remember)
             return redirect_back('user.index', id=user.id)
-        flash('授权失败！', 'negative')
-
     return render_template('auth/login.html')
 
 
