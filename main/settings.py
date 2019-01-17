@@ -14,8 +14,6 @@ else:
 class BaseConfig:
     SECRET_KEY = os.getenv('SECRET_KEY', 'esterTion')
 
-    ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', 'admin@yuangezhizao.cn')
-
     UPLOAD_PATH = os.path.join(basedir, 'uploads')
 
     PHOTO_SIZE = {'small': 400,

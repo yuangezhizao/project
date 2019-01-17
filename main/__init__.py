@@ -13,6 +13,7 @@ from main.blueprints.user import user_bp
 from main.blueprints.ins import ins_bp
 from main.plugins.extensions import db, login_manager, whooshee, csrf, moment
 from main.models.user import User, Role, Depart
+from main.models.photo import Task
 
 
 def create_app(config_name=None):
@@ -98,10 +99,13 @@ def register_commands(app):
         db.create_all()
 
         click.echo('初始化角色和权限……')
-        Role.init_role()
+        Role.init_roles()
 
         click.echo('初始化部门……')
-        Depart.init_depart()
+        Depart.init_departs()
+
+        click.echo('初始化任务……')
+        Task.init_tasks()
 
         click.echo('初始化完成！')
 
@@ -117,18 +121,22 @@ def register_commands(app):
         click.echo('设定管理员……')
         admin_user = User(email='admin@yuangezhizao.cn', name='管理员', username='admin')
         admin_user.set_password('admin')
+        admin_user.set_role_by_role_name('Administrator')
 
         click.echo('设定用户……')
         normal_user = User(email='user@yuangezhizao.cn', name='用户', username='user')
+        # 若想 role_id=4，则需注释掉 models/user.py self.set_role_by_role_name()
         normal_user.set_password('user')
 
         click.echo('设定审核者一……')
         ins_user = User(email='ins@yuangezhizao.cn', name='审核者一', username='ins')
         ins_user.set_password('ins')
+        ins_user.set_role_by_role_name('Inspector')
 
         click.echo('设定审核者二……')
         mod_user = User(email='mod@yuangezhizao.cn', name='审核者二', username='mod')
         mod_user.set_password('mod')
+        mod_user.set_role_by_role_name('Moderator')
 
         db.session.add_all([admin_user, normal_user, ins_user, mod_user])
         db.session.commit()
@@ -156,5 +164,4 @@ def register_template_context(app):
     @app.before_request
     def before_request():
         if current_user.is_authenticated:
-            current_user.last_seen = datetime.datetime.utcnow()
-            db.session.commit()
+            current_user.ping()
