@@ -15,10 +15,10 @@ moment = Moment()
 @login_manager.user_loader
 def load_user(user_id):
     from main.models.user import User
-    user = User.query.get(int(user_id))
-    return user
+    return User.query.get(int(user_id))
 
 
+login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 login_manager.login_message = '未授权用户，请先登录！'
 login_manager.login_message_category = 'negative'
