@@ -10,10 +10,15 @@ class AuthTestCase(BaseTestCase):
         data = response.get_data(as_text=True)
         self.assertIn('用户信息', data)
 
-    def test_fail_login(self):
-        response = self.login(username='wrong-username', password='wrong-password')
+    def test_fail_login_wrong_username(self):
+        response = self.login(username='wrong-username', password='admin')
         data = response.get_data(as_text=True)
-        self.assertIn('授权失败！', data)
+        self.assertIn('不存在的用户名！', data)
+
+    def test_fail_login_wrong_password(self):
+        response = self.login(username='admin', password='wrong-password')
+        data = response.get_data(as_text=True)
+        self.assertIn('不正确的密码！', data)
 
     def test_logout_user(self):
         self.login()
