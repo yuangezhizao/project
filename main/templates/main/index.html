@@ -4,13 +4,21 @@
 
 {% block content %}
     <div class="ui three doubling cards">
-        <div class="blue card">
+        <div class="black card">
             <div class="content">
                 <div class="header">素材上传</div>
                 <div class="description">整合纷繁复杂的<b>图片</b></div>
                 <div class="ui top right attached pink label">New</div>
             </div>
             <a href="{{ url_for('user.upload') }}" class="ui attached button"><i class="image icon"></i></a>
+        </div>
+        <div class="blue card">
+            <div class="content">
+                <div class="header">设置公开</div>
+                <div class="description">审核图片的安全性</div>
+                <div class="ui top right attached pink label">New</div>
+            </div>
+            <a href="{{ url_for('ins.photos_list') }}" class="ui attached button"><i class="calendar check icon"></i></a>
         </div>
     </div>
 {% endblock %}
