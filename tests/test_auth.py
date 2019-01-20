@@ -30,3 +30,24 @@ class AuthTestCase(BaseTestCase):
         response = self.client.get(url_for('user.index', id=0), follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn('未授权用户，请先登录！', data)
+
+    def test_register_account(self):
+        self.login()
+        depart_name = '本科生第一支部'
+        role_name = 'User'
+        email = 'test@yuangezhizao.cn'
+        about_me = 'test'
+        username = 'test'
+        name = 'test'
+        password = 'test'
+        response = self.client.post(url_for('auth.register'), data=dict(
+            depart_name=depart_name,
+            role_name=role_name,
+            email=email,
+            about_me=about_me,
+            username=username,
+            name=name,
+            password=password,
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn(f'新用户注册成功，邮箱：{email}，用户名：{username}，昵称：{name}', data)
