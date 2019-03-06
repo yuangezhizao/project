@@ -1,11 +1,12 @@
+import os
+
 from flask import render_template, Blueprint, abort, request, flash, redirect, current_app, send_from_directory, url_for
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-import os
 
-from main.models.user import User
 from main.models.photo import Photo
 from main.models.task_dict import task_dict
+from main.models.user import User
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
 from main.plugins.utils import allowed_file, rename_image, resize_image
@@ -44,12 +45,12 @@ def upload():
             filename = secure_filename(f.filename)
             filename = rename_image(filename)
             f.save(os.path.join(current_app.config['UPLOAD_PATH'], filename))
-            filename_s = resize_image(f, filename, current_app.config['PHOTO_SIZE']['small'])
             filename_m = resize_image(f, filename, current_app.config['PHOTO_SIZE']['medium'])
+            filename_s = resize_image(f, filename, current_app.config['PHOTO_SIZE']['small'])
             photo = Photo(
                 filename=filename,
-                filename_s=filename_s,
                 filename_m=filename_m,
+                filename_s=filename_s,
                 description=description,
                 author=current_user._get_current_object()
             )
@@ -87,5 +88,6 @@ def get_task_name_html():
             task_name_first = request.form.get('task_name_first')
             task_name_second = request.form.get('task_name_second')
             for task_name_third in task_dict[task_name_first][task_name_second]:
-                task_name_html += '<option value="{0}">{1}</option>'.format(task_name_third['details'], task_name_third['details'])
+                task_name_html += '<option value="{0}">{1}</option>'.format(task_name_third['details'],
+                                                                            task_name_third['details'])
         return task_name_html
