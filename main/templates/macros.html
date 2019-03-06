@@ -1,15 +1,34 @@
 {% macro photo_card(photo) %}
-    <div class="ui card">
-        <a class="image" href="{{ url_for('user.show_photo', photo_id=photo.id) }}">
-            <img class="ui small image" src="{{ url_for('user.get_image', filename=photo.filename_s) }}">
-        </a>
-        <div class="content">
-            <a class="header" href="#">{{ user.name }}</a>
-            <div class="meta">
-                <a>{{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}</a>
+    {% if current_user.can('SET_PUBLIC') or photo.status > 0 or current_user == photo.author %}
+        <div class="ui card">
+            <div class="ui fluid image">
+                {% if photo.status == 0 %}
+                    <a class="ui black right corner label">
+                        <i class="lock icon"></i>
+                    </a>
+                {% elif photo.status > 0 %}
+                    <a class="ui blue right corner label">
+                        <i class="eye icon"></i>
+                    </a>
+                {% elif photo.status < 0 %}
+                    <a class="ui red right corner label">
+                        <i class="ban icon"></i>
+                    </a>
+                {% endif %}
+                <a class="image" href="{{ url_for('user.show_photo', photo_id=photo.id) }}">
+                    <img class="ui small image" src="{{ url_for('user.get_image', filename=photo.filename_s) }}">
+                </a>
+            </div>
+            <div class="content">
+                <a class="header">{{ user.name }}</a>
+                <div class="meta">
+                    <a>{{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}</a>
+                </div>
             </div>
         </div>
-    </div>
+    {% else %}
+        <div class="ui negative message">图片尚未公开</div>
+    {% endif %}
 {% endmacro %}
 
 {% macro message_part() %}
