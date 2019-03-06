@@ -1,0 +1,105 @@
+{% extends "/base.html" %}
+
+{% block title %}图片列表{% endblock %}
+
+{% block nav %}
+    <a class="active item"><i class="list icon"></i>图片列表</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
+{% block content %}
+    {% block wide %}
+        <div class="sixteen wide column">
+    {% endblock %}
+    <div class="ui dividing red header">
+        <div class="content">
+            <h2>图片列表</h2>
+        </div>
+    </div>
+    <div class="ui statistics">
+        <div class="statistic">
+            <div class="value">
+                {{ all_count }}
+            </div>
+            <div class="label">总计</div>
+        </div>
+        <div class="statistic">
+            <div class="value">
+                {{ wait_count }}
+            </div>
+            <div class="label">未审核</div>
+        </div>
+        <div class="statistic">
+            <div class="value">
+                {{ passed_count }}
+            </div>
+            <div class="label">已公开</div>
+        </div>
+        <div class="statistic">
+            <div class="value">
+                {{ not_passed_count }}
+            </div>
+            <div class="label">未公开</div>
+        </div>
+    </div>
+    <table id="photos_list_table" class="tablesorter ui sortable unstackable celled striped red compact table">
+        <thead>
+        <tr class="positive">
+            <th class="sorted ascending">ID</th>
+            <th>缩略图（文件名）</th>
+            <th>描述</th>
+            <th>上传时间</th>
+            <th>状态码</th>
+            <th>用户名</th>
+            <th>任务 ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for photo in photos %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('user.show_photo', photo_id=photo.id) }}" target='_blank'>{{ photo.id }}</a>
+                </td>
+                <td>
+                    <a class="image" href="{{ url_for('user.show_photo', photo_id=photo.id) }}">
+                        <img title="{{ photo.filename }}" class="ui small image"
+                             src="{{ url_for('user.get_image', filename=photo.filename_s) }}">
+                    </a>
+                </td>
+                <td>
+                    {{ photo.description }}
+                </td>
+                <td>
+                    {{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}
+                </td>
+                <td>
+                    {% if photo.status == 0 %}
+                        <div class="ui black horizontal label">等待审核</div>
+                    {% elif photo.status > 0 %}
+                        <div class="ui blue horizontal label">审核通过，已公开</div>
+                    {% elif photo.status < 0 %}
+                        <div class="ui red horizontal label">审核未通过，已驳回</div>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('user.index', id=photo.author.id) }}"
+                       target='_blank'>{{ photo.author.name }}</a>
+                </td>
+                <td title="{{ photo.task.name_first }}；{{ photo.task.name_second }}；{{ photo.task.name_third }}">
+                    {{ photo.task.name_third }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='static/js/jquery.tablesorter.combined.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#photos_list_table").tablesorter({sortList: [[0, 0]]});
+        });
+    </script>
+{% endblock %}

@@ -74,7 +74,7 @@
                 <a href="{{ url_for('auth.register') }}" class="ui green button" target='_blank'>注册新用户</a>
             {% endif %}
             {% if current_user.can('SET_PUBLIC') %}
-                <a href="#" class="ui blue button" target='_blank'>设置公开权限</a>
+                <a href="{{ url_for('ins.photos_list') }}" class="ui blue button" target='_blank'>设置公开权限</a>
             {% endif %}
             {% if current_user.can('MODERATE') %}
                 <a href="#" class="ui brown button" target='_blank'>发表评论意见</a>
