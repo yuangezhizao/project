@@ -16,21 +16,21 @@
         </div>
     </div>
     {{ message_part() }}
-    {% if current_user.can('SET_PUBLIC') or photo.status > 0 or current_user == photo.author %}
+    {% if current_user.can('SET_PUBLIC') or photo.public_status > 0 or current_user == photo.author %}
         <div class="ui tall stacked segment">
             <div class="item">
                 <div class="content">
                     <h3>图片</h3>
                     <div class="ui fluid image">
-                        {% if photo.status == 0 %}
+                        {% if photo.public_status == 0 %}
                             <a class="ui black right corner label">
                                 <i class="lock icon"></i>
                             </a>
-                        {% elif photo.status > 0 %}
+                        {% elif photo.public_status > 0 %}
                             <a class="ui blue right corner label">
                                 <i class="eye icon"></i>
                             </a>
-                        {% elif photo.status < 0 %}
+                        {% elif photo.public_status < 0 %}
                             <a class="ui red right corner label">
                                 <i class="ban icon"></i>
                             </a>
@@ -62,11 +62,11 @@
         <div class="ui negative message">图片尚未公开</div>
     {% endif %}
     {% if current_user == photo.author %}
-        {% if photo.status == 0 %}
+        {% if photo.public_status == 0 %}
             <div class="ui black message">等待审核</div>
-        {% elif photo.status > 0 %}
+        {% elif photo.public_status > 0 %}
             <div class="ui positive message">审核通过，已公开</div>
-        {% elif photo.status < 0 %}
+        {% elif photo.public_status < 0 %}
             <div class="ui negative message">审核未通过，已驳回</div>
         {% endif %}
     {% endif %}
@@ -75,17 +75,17 @@
             <h3>操作</h3>
             <form class="ui inline" method="post" action="{{ url_for('ins.set_public', photo_id=photo.id) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                {% if photo.status == 0 %}
+                {% if photo.public_status == 0 %}
                     <div class="ui buttons">
                         <button class="ui positive button" name="status" value="1">通过审核</button>
                         <div class="or"></div>
                         <button class="ui negative button" name="status" value="-1">不予通过</button>
                     </div>
                 {% else %}
-                    {% if photo.status > 0 %}
+                    {% if photo.public_status > 0 %}
                         <input type="hidden" name="status" value="-1">
                         <button type="submit" class="ui negative button">点击关闭公开权限</button>
-                    {% elif photo.status < 0 %}
+                    {% elif photo.public_status < 0 %}
                         <input type="hidden" name="status" value="1">
                         <button type="submit" class="ui blue button">点击开启公开权限</button>
                     {% endif %}

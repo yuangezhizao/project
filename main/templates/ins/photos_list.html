@@ -125,11 +125,11 @@
                     {{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}
                 </td>
                 <td>
-                    {% if photo.status == 0 %}
+                    {% if photo.public_status == 0 %}
                         <div class="ui black horizontal label">等待审核</div>
-                    {% elif photo.status > 0 %}
+                    {% elif photo.public_status > 0 %}
                         <div class="ui blue horizontal label">审核通过，已公开</div>
-                    {% elif photo.status < 0 %}
+                    {% elif photo.public_status < 0 %}
                         <div class="ui red horizontal label">审核未通过，已驳回</div>
                     {% endif %}
                 </td>

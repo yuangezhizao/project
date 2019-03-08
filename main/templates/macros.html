@@ -1,16 +1,16 @@
 {% macro photo_card(photo) %}
-    {% if current_user.can('SET_PUBLIC') or photo.status > 0 or current_user == photo.author %}
+    {% if current_user.can('SET_PUBLIC') or photo.public_status > 0 or current_user == photo.author %}
         <div class="ui card">
             <div class="ui fluid image">
-                {% if photo.status == 0 %}
+                {% if photo.public_status == 0 %}
                     <a class="ui black right corner label">
                         <i class="lock icon"></i>
                     </a>
-                {% elif photo.status > 0 %}
+                {% elif photo.public_status > 0 %}
                     <a class="ui blue right corner label">
                         <i class="eye icon"></i>
                     </a>
-                {% elif photo.status < 0 %}
+                {% elif photo.public_status < 0 %}
                     <a class="ui red right corner label">
                         <i class="ban icon"></i>
                     </a>
