@@ -68,7 +68,31 @@
         </div>
         <br>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input class="ui positive button" type="submit" value="点击筛选">
+        <input class="ui positive button" type="submit" value="按任务筛选">
+    </form>
+    <form action="" class="ui form" method="get">
+        <div class="field">
+            <label>部门</label>
+            <select class="ui fluid selectioninline dropdown" id="depart_name" name="depart_name">
+                <option value="0">==请选择==</option>
+                <option value="本科生第一支部">本科生第一支部</option>
+                <option value="本科生第二支部">本科生第二支部</option>
+                <option value="研究生第一支部">研究生第一支部</option>
+                <option value="研究生第二支部">研究生第二支部</option>
+                <option value="研究生第三支部">研究生第三支部</option>
+                <option value="教工第一支部">教工第一支部</option>
+                <option value="教工第二支部">教工第二支部</option>
+                <option value="计算机系支部">计算机系支部</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>用户</label>
+            <select class="ui fluid selection dropdown" id="user_name" name="user_id">
+            </select>
+        </div>
+        <br>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input class="ui positive button" type="submit" value="按部门筛选">
     </form>
     <table id="photos_list_table" class="tablesorter ui sortable unstackable celled striped red compact table">
         <thead>
@@ -160,6 +184,22 @@
                 },
                 success: function (data) {
                     $('#task_name_third').html(data);
+                }
+            });
+        });
+        $('#depart_name').change(function () {
+            var depart_name = $(this).val();
+            $.ajax({
+                url: "{{ url_for('ins.get_user_name_html') }}",
+                type: "post",
+                async: false,
+                data: {
+                    action: 'get_users',
+                    depart_name: depart_name,
+                    csrf_token: "{{ csrf_token() }}"
+                },
+                success: function (data) {
+                    $('#user_name').html(data);
                 }
             });
         });
