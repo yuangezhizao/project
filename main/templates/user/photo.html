@@ -77,16 +77,16 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 {% if photo.public_status == 0 %}
                     <div class="ui buttons">
-                        <button class="ui positive button" name="status" value="1">通过审核</button>
+                        <button class="ui positive button" name="public_status" value="1">通过审核</button>
                         <div class="or"></div>
-                        <button class="ui negative button" name="status" value="-1">不予通过</button>
+                        <button class="ui negative button" name="public_status" value="-1">不予通过</button>
                     </div>
                 {% else %}
                     {% if photo.public_status > 0 %}
-                        <input type="hidden" name="status" value="-1">
+                        <input type="hidden" name="public_status" value="-1">
                         <button type="submit" class="ui negative button">点击关闭公开权限</button>
                     {% elif photo.public_status < 0 %}
-                        <input type="hidden" name="status" value="1">
+                        <input type="hidden" name="public_status" value="1">
                         <button type="submit" class="ui blue button">点击开启公开权限</button>
                     {% endif %}
                 {% endif %}
