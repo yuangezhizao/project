@@ -33,8 +33,8 @@ class Role(db.Model):
     def init_roles():
         roles_permissions_map = {
             'User': ['UPLOAD'],
-            'Inspector': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC'],
-            'Moderator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'MODERATE'],
+            'Inspector': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'COMMENT'],
+            'Moderator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'COMMENT'],
             'Administrator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'MODERATE', 'ADMINISTER']
         }
 
