@@ -1,5 +1,6 @@
 import os
 import sys
+from datetime import timedelta
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -27,6 +28,15 @@ class BaseConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     WHOOSHEE_MIN_STRING_LEN = 1
+
+    REMEMBER_COOKIE_NAME = 'remember_token'
+    REMEMBER_COOKIE_DURATION = timedelta(days=365)
+    # REMEMBER_COOKIE_DOMAIN
+    # REMEMBER_COOKIE_PATH
+    REMEMBER_COOKIE_SECURE = 'True'
+    REMEMBER_COOKIE_HTTPONLY = 'True'
+    REMEMBER_COOKIE_REFRESH_EACH_REQUEST = 'True'
+    PERMANENT_SESSION_LIFETIME = timedelta(days=365)
 
 
 class DevelopmentConfig(BaseConfig):
