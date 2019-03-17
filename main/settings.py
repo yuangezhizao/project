@@ -38,6 +38,8 @@ class BaseConfig:
     REMEMBER_COOKIE_REFRESH_EACH_REQUEST = 'True'
     PERMANENT_SESSION_LIFETIME = timedelta(days=365)
 
+    PHOTO_PER_PAGE = 8
+
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
