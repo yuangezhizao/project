@@ -100,7 +100,9 @@
                     </div>
                 </div>
             </div>
+            {% if photos %}
             {{ pagination_widget(pagination, 'user.index', id=id) }}
+            {% endif %}
         </div>
     </div>
     <div class="sixteen wide mobile ten wide tablet ten wide computer column">
