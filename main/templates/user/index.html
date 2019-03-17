@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from 'macros.html' import photo_card with context %}
+{% from 'macros.html' import photo_card, pagination_widget with context %}
 
 {% block title %}用户{% endblock %}
 
@@ -81,22 +81,27 @@
             {% endif %}
         </div>
     {% endif %}
-    <div class="ui tall stacked segment">
-        <div class="ui divided items">
-            <div class="item">
-                <div class="content">
-                    <h3>图片</h3>
-                    {% if photos %}
-                        <div class="ui cards">
-                            {% for photo in photos %}
-                                {{ photo_card(photo) }}
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="ui red disabled button">暂无图片</div>
-                    {% endif %}
+    </div>
+    <div class="fourteen wide column">
+        <div class="ui tall stacked segment">
+            <div class="ui divided items">
+                <div class="item">
+                    <div class="content">
+                        <h3>图片</h3>
+                        {% if photos %}
+                            <div class="ui cards">
+                                {% for photo in photos %}
+                                    {{ photo_card(photo) }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="ui red disabled button">暂无图片</div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+            {{ pagination_widget(pagination, 'user.index', id=id) }}
         </div>
     </div>
+    <div class="sixteen wide mobile ten wide tablet ten wide computer column">
 {% endblock %}
