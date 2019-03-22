@@ -1,4 +1,5 @@
 {% extends "/base.html" %}
+{% from 'macros.html' import photo_card, pagination_widget with context %}
 
 {% block title %}图片列表{% endblock %}
 
@@ -42,108 +43,140 @@
             <div class="label">未公开</div>
         </div>
     </div>
+    <div class="ui blue message">
+        当前筛选条件【
+        {% if depart_id != 0 %}
+            部门：{{ depart_id }}；
+        {% endif %}
+        {% if task_name_first != '0' %}
+            任务分类一：{{ task_name_first }}；
+        {% endif %}
+        {% if task_name_second != '0' %}
+            任务分类二：{{ task_name_second }}；
+        {% endif %}
+        {% if task_name_third != '0' %}
+            任务分类三：{{ task_name_third }}
+        {% endif %}
+        】
+    </div>
     <form action="" class="ui form" method="get">
-        <div class="field">
-            <label>任务分类一</label>
-            <select class="ui fluid selectioninline dropdown" id="task_name_first" name="task_name_first">
-                <option value="0">==请选择==</option>
-                <option value="1组织健全">1组织健全</option>
-                <option value="2制度完善">2制度完善</option>
-                <option value="3运行规范">3运行规范</option>
-                <option value="4活动经常">4活动经常</option>
-                <option value="5档案齐全">5档案齐全</option>
-                <option value="6作用突出">6作用突出</option>
-                <option value="7附加项目">7附加项目</option>
-            </select>
+        <div class="four fields">
+            <div class="three wide field">
+                <label>部门</label>
+                <select class="ui selection dropdown" id="depart_id" name="depart_id">
+                    <option value="0">==请选择==</option>
+                    <option value="1">本科生第一支部</option>
+                    <option value="2">本科生第二支部</option>
+                    <option value="3">研究生第一支部</option>
+                    <option value="4">研究生第二支部</option>
+                    <option value="5">研究生第三支部</option>
+                    <option value="6">教工第一支部</option>
+                    <option value="7">教工第二支部</option>
+                    <option value="8">计算机系支部</option>
+                </select>
+            </div>
+            <div class="three wide field">
+                <label>任务分类一</label>
+                <select class="ui selection dropdown" id="task_name_first" name="task_name_first">
+                    <option value="0">==请选择==</option>
+                    <option value="1组织健全">1组织健全</option>
+                    <option value="2制度完善">2制度完善</option>
+                    <option value="3运行规范">3运行规范</option>
+                    <option value="4活动经常">4活动经常</option>
+                    <option value="5档案齐全">5档案齐全</option>
+                    <option value="6作用突出">6作用突出</option>
+                    <option value="7附加项目">7附加项目</option>
+                </select>
+            </div>
+            <div class="three wide field">
+                <label>任务分类二</label>
+                <select class="ui selection dropdown" id="task_name_second" name="task_name_second">
+                    <option value="0">请先选择“任务分类一”</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>任务分类三</label>
+                <select class="ui selection dropdown" id="task_name_third" name="task_name_third">
+                    <option value="0">请先选择“任务分类二”</option>
+                </select>
+            </div>
         </div>
-        <div class="field">
-            <label>任务分类二</label>
-            <select class="ui fluid selection dropdown" id="task_name_second" name="task_name_second">
-            </select>
-        </div>
-        <div class="field">
-            <label>任务分类三</label>
-            <select class="ui fluid selection dropdown" id="task_name_third" name="task_name_third">
-            </select>
-        </div>
-        <br>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input class="ui positive button" type="submit" value="按任务筛选">
+        <input class="ui positive button" type="submit" value="筛选">
+        <input class="ui negative button" type="reset"
+               onclick=window.location.href=("{{ url_for('ins.photos_list') }}"); value="清空">
     </form>
-    <form action="" class="ui form" method="get">
-        <div class="field">
-            <label>部门</label>
-            <select class="ui fluid selectioninline dropdown" id="depart_name" name="depart_name">
-                <option value="0">==请选择==</option>
-                <option value="本科生第一支部">本科生第一支部</option>
-                <option value="本科生第二支部">本科生第二支部</option>
-                <option value="研究生第一支部">研究生第一支部</option>
-                <option value="研究生第二支部">研究生第二支部</option>
-                <option value="研究生第三支部">研究生第三支部</option>
-                <option value="教工第一支部">教工第一支部</option>
-                <option value="教工第二支部">教工第二支部</option>
-                <option value="计算机系支部">计算机系支部</option>
-            </select>
-        </div>
-        <div class="field">
-            <label>用户</label>
-            <select class="ui fluid selection dropdown" id="user_name" name="user_id">
-            </select>
-        </div>
-        <br>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input class="ui positive button" type="submit" value="按部门筛选">
-    </form>
-    <table id="photos_list_table" class="tablesorter ui sortable unstackable celled striped red compact table">
-        <thead>
-        <tr class="positive">
-            <th class="sorted ascending">ID</th>
-            <th>缩略图（文件名）</th>
-            <th>描述</th>
-            <th>上传时间</th>
-            <th>状态码</th>
-            <th>用户名</th>
-            <th>任务 ID</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for photo in photos %}
-            <tr>
-                <td>
-                    <a href="{{ url_for('user.show_photo', photo_id=photo.id) }}" target='_blank'>{{ photo.id }}</a>
-                </td>
-                <td>
-                    <a class="image" href="{{ url_for('user.show_photo', photo_id=photo.id) }}">
-                        <img title="{{ photo.filename }}" class="ui small image"
-                             src="{{ url_for('user.get_image', filename=photo.filename_s) }}">
-                    </a>
-                </td>
-                <td>
-                    {{ photo.description }}
-                </td>
-                <td>
-                    {{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}
-                </td>
-                <td>
-                    {% if photo.public_status == 0 %}
-                        <div class="ui black horizontal label">等待审核</div>
-                    {% elif photo.public_status > 0 %}
-                        <div class="ui blue horizontal label">审核通过，已公开</div>
-                    {% elif photo.public_status < 0 %}
-                        <div class="ui red horizontal label">审核未通过，已驳回</div>
+    {#    <table id="photos_list_table" class="tablesorter ui sortable unstackable celled striped red compact table">#}
+    {#        <thead>#}
+    {#        <tr class="positive">#}
+    {#            <th class="sorted ascending">ID</th>#}
+    {#            <th>缩略图（文件名）</th>#}
+    {#            <th>描述</th>#}
+    {#            <th>上传时间</th>#}
+    {#            <th>状态码</th>#}
+    {#            <th>用户名</th>#}
+    {#            <th>任务 ID</th>#}
+    {#        </tr>#}
+    {#        </thead>#}
+    {#        <tbody>#}
+    {#        {% for photo in photos %}#}
+    {#            <tr>#}
+    {#                <td>#}
+    {#                    <a href="{{ url_for('user.show_photo', photo_id=photo.id) }}" target='_blank'>{{ photo.id }}</a>#}
+    {#                </td>#}
+    {#                <td>#}
+    {#                    <a class="image" href="{{ url_for('user.show_photo', photo_id=photo.id) }}">#}
+    {#                        <img title="{{ photo.filename }}" class="ui small image"#}
+    {#                             src="{{ url_for('user.get_image', filename=photo.filename_s) }}">#}
+    {#                    </a>#}
+    {#                </td>#}
+    {#                <td>#}
+    {#                    {{ photo.description }}#}
+    {#                </td>#}
+    {#                <td>#}
+    {#                    {{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}#}
+    {#                </td>#}
+    {#                <td>#}
+    {#                    {% if photo.public_status == 0 %}#}
+    {#                        <div class="ui black horizontal label">等待审核</div>#}
+    {#                    {% elif photo.public_status > 0 %}#}
+    {#                        <div class="ui blue horizontal label">审核通过，已公开</div>#}
+    {#                    {% elif photo.public_status < 0 %}#}
+    {#                        <div class="ui red horizontal label">审核未通过，已驳回</div>#}
+    {#                    {% endif %}#}
+    {#                </td>#}
+    {#                <td>#}
+    {#                    <a href="{{ url_for('user.index', id=photo.author.id) }}"#}
+    {#                       target='_blank'>{{ photo.author.name }}</a>#}
+    {#                </td>#}
+    {#                <td title="{{ photo.task.name_first }}；{{ photo.task.name_second }}；{{ photo.task.name_third }}">#}
+    {#                    {{ photo.task.name_third }}#}
+    {#                </td>#}
+    {#            </tr>#}
+    {#        {% endfor %}#}
+    {#        </tbody>#}
+    {#    </table>#}
+    <div class="ui tall stacked segment">
+        <div class="ui divided items">
+            <div class="item">
+                <div class="content">
+                    <h3>图片</h3>
+                    {% if photos %}
+                        <div class="ui cards">
+                            {% for photo in photos %}
+                                {{ photo_card(photo) }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="ui red disabled button">暂无图片</div>
                     {% endif %}
-                </td>
-                <td>
-                    <a href="{{ url_for('user.index', id=photo.author.id) }}"
-                       target='_blank'>{{ photo.author.name }}</a>
-                </td>
-                <td title="{{ photo.task.name_first }}；{{ photo.task.name_second }}；{{ photo.task.name_third }}">
-                    {{ photo.task.name_third }}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if photos %}
+        {{ pagination_widget(pagination, 'ins.photos_list', task_name_first=task_name_first, task_name_second=task_name_second, task_name_third=task_name_third, depart_id=depart_id) }}
+    {% endif %}
 {% endblock %}
 
 {% block script %}
@@ -184,22 +217,6 @@
                 },
                 success: function (data) {
                     $('#task_name_third').html(data);
-                }
-            });
-        });
-        $('#depart_name').change(function () {
-            var depart_name = $(this).val();
-            $.ajax({
-                url: "{{ url_for('ins.get_user_name_html') }}",
-                type: "post",
-                async: false,
-                data: {
-                    action: 'get_users',
-                    depart_name: depart_name,
-                    csrf_token: "{{ csrf_token() }}"
-                },
-                success: function (data) {
-                    $('#user_name').html(data);
                 }
             });
         });
