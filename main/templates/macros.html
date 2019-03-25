@@ -20,7 +20,7 @@
                 </a>
             </div>
             <div class="content">
-                <a class="header" href="{{ url_for('user.index', id=user.id) }}">{{ user.name }}</a>
+                <a class="header" href="{{ url_for('user.index', id=photo.author.id) }}">{{ photo.author.name }}</a>
                 <div class="meta">
                     <a>{{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}</a>
                 </div>
@@ -33,7 +33,7 @@
                 {# TODO：截断 #}
             </div>
             <div class="extra content" style="text-align: center;">
-                {{ user.depart.name }}
+                {{ photo.author.depart.name }}
             </div>
         </div>
     {% else %}
