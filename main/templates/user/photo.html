@@ -42,6 +42,12 @@
                 </div>
             </div>
         </div>
+        <div class="ui blue message">
+            <p>{{ photo.author.depart.name }}</p>
+        </div>
+        <div class="ui blue message">
+            <p>{{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}</p>
+        </div>
         <div class="ui tall stacked segment">
             <h3>任务</h3>
             <ul class="ui list">
@@ -53,10 +59,6 @@
         <div class="ui tall stacked segment">
             <h3>描述</h3>
             <p>{{ photo.description }}</p>
-        </div>
-        <div class="ui tall stacked segment">
-            <h3>上传时间</h3>
-            <p>{{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}</p>
         </div>
     {% else %}
         <div class="ui negative message">图片尚未公开</div>
