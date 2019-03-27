@@ -76,8 +76,8 @@
             {% if current_user.can('SET_PUBLIC') %}
                 <a href="{{ url_for('ins.photos_list') }}" class="ui blue button" target='_blank'>设置公开权限</a>
             {% endif %}
-            {% if current_user.can('MODERATE') %}
-                <a href="#" class="ui brown button" target='_blank'>发表评论意见</a>
+            {% if current_user.can('COMMENT') %}
+                <a href="{{ url_for('ins.comments_list') }}" class="ui brown button" target='_blank'>查看评论</a>
             {% endif %}
         </div>
     {% endif %}

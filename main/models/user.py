@@ -1,7 +1,7 @@
-from flask import current_app
+import datetime
+
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-import datetime
 
 from main.plugins.extensions import db, whooshee
 
@@ -35,7 +35,7 @@ class Role(db.Model):
             'User': ['UPLOAD'],
             'Inspector': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'COMMENT'],
             'Moderator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'COMMENT'],
-            'Administrator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'MODERATE', 'ADMINISTER']
+            'Administrator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'COMMENT', 'ADMINISTER']
         }
 
         # 权限分配：
@@ -100,6 +100,7 @@ class User(db.Model, UserMixin):
     depart = db.relationship('Depart', back_populates='users')
 
     photos = db.relationship('Photo', back_populates='author', cascade='all')
+    comments = db.relationship('Comment', back_populates='author', cascade='all')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

@@ -1,8 +1,7 @@
 from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app
-from flask_login import login_required
+from flask_login import login_required, current_user
 
-from main.models.photo import Photo
-from main.models.photo import Task
+from main.models.photo import Photo, Task, Comment
 from main.models.user import User
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
@@ -59,3 +58,35 @@ def photos_list():
                            passed_count=passed_count, not_passed_count=not_passed_count,
                            task_name_first=task_name_first, task_name_second=task_name_second,
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
+
+
+@ins_bp.route('/comment', methods=['POST'])
+@login_required
+@permission_required('COMMENT')
+def comment():
+    body = request.form.get('body')
+    depart_id = request.form.get('depart_id')
+    passed_count = request.form.get('passed_count')
+    url = request.form.get('url')
+    filter = request.form.get('filter')
+    comment = Comment(body=body,
+                      depart_id=depart_id,
+                      passed_count=passed_count,
+                      url=url,
+                      filter=filter,
+                      author=current_user._get_current_object())
+    db.session.add(comment)
+    db.session.commit()
+    flash('评论成功！', 'success')
+    return redirect(url_for('ins.photos_list'))
+
+
+@ins_bp.route('/comments_list', methods=['GET', 'POST'])
+@login_required
+@permission_required('COMMENT')
+def comments_list():
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['PHOTO_PER_PAGE']
+    pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(page, per_page)
+    comments = pagination.items
+    return render_template('ins/comments_list.html', pagination=pagination, comments=comments)

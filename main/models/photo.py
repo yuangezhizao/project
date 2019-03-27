@@ -35,7 +35,7 @@ class Task(db.Model):
 class Photo(db.Model):
     __tablename__ = 'photos'
     id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.Text())
+    description = db.Column(db.Text)
     filename = db.Column(db.String(64))
     filename_m = db.Column(db.String(64))
     filename_s = db.Column(db.String(64))
@@ -58,3 +58,22 @@ class Photo(db.Model):
     def set_task_by_name_third(self, name_third):
         self.task = Task.query.filter_by(name_third=name_third).first()
         db.session.commit()
+
+
+@whooshee.register_model('body')
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    depart_id = db.Column(db.Integer)
+    passed_count = db.Column(db.Integer)
+    url = db.Column(db.Text)
+    filter = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    author = db.relationship('User', back_populates='comments')
+
+    replied_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    replies = db.relationship('Comment', back_populates='replied', cascade='all')
+    replied = db.relationship('Comment', back_populates='replies', remote_side=[id])

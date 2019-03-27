@@ -1,5 +1,5 @@
 {% extends "/base.html" %}
-{% from 'macros.html' import photo_card, pagination_widget with context %}
+{% from 'macros.html' import photo_card, message_part, pagination_widget with context %}
 
 {% block title %}图片列表{% endblock %}
 
@@ -43,6 +43,7 @@
             <div class="label">未公开</div>
         </div>
     </div>
+    {{ message_part() }}
     <div class="ui blue message">
         当前筛选条件【
         {% if depart_id != 0 %}
@@ -176,6 +177,29 @@
     </div>
     {% if photos %}
         {{ pagination_widget(pagination, 'ins.photos_list', task_name_first=task_name_first, task_name_second=task_name_second, task_name_third=task_name_third, depart_id=depart_id) }}
+    {% endif %}
+    {% if depart_id != 0 %}
+        <div class="ui tall stacked segment">
+            <h3 class="ui dividing header">评论</h3>
+            <form action="{{ url_for('ins.comment') }}" method="post" class="ui reply form">
+                <div class="field">
+                    <label>评论区</label>
+                    <div class="ui input">
+                        <textarea class="ui input" type="text" rows="5" name="body" placeholder="请输入评论……"
+                                  autofocus></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="depart_id" value="{{ depart_id }}"/>
+                <input type="hidden" name="passed_count" value="{{ passed_count }}">
+                <input type="hidden" name="url" value="{{ request.url }}">
+                <input type="hidden" name="filter" value="{% if depart_id != 0 %}部门：{{ depart_id }}；{% endif %}
+        {% if task_name_first != '0' %}任务分类一：{{ task_name_first }}；{% endif %}
+        {% if task_name_second != '0' %}任务分类二：{{ task_name_second }}；{% endif %}
+        {% if task_name_third != '0' %}任务分类三：{{ task_name_third }}{% endif %}"/>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input class="ui positive button" type="submit" value="提交">
+            </form>
+        </div>
     {% endif %}
 {% endblock %}
 
