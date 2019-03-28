@@ -35,6 +35,28 @@
             <div class="extra content" style="text-align: center;">
                 {{ photo.author.depart.name }}
             </div>
+            {% if current_user.can('SET_PUBLIC') %}
+                <form style="text-align: center;" class="ui inline" method="post"
+                      action="{{ url_for('ins.set_public', photo_id=photo.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    {% if photo.public_status == 0 %}
+                        <div class="ui mini buttons">
+                            <button class="ui positive mini button" name="public_status" value="1">通过审核</button>
+                            <div class="or"></div>
+                            <button class="ui negative mini button" name="public_status" value="-1">不予通过</button>
+                        </div>
+                    {% else %}
+                        {% if photo.public_status > 0 %}
+                            <input type="hidden" name="public_status" value="-1">
+                            <button type="submit" class="ui negative mini button">点击关闭公开权限</button>
+                        {% elif photo.public_status < 0 %}
+                            <input type="hidden" name="public_status" value="1">
+                            <button type="submit" class="ui blue mini button">点击开启公开权限</button>
+                        {% endif %}
+                    {% endif %}
+                </form>
+            {% endif %}
+            {# TODO：点击 icon 操作 #}
         </div>
     {% else %}
         <div class="ui negative message">图片尚未公开</div>
