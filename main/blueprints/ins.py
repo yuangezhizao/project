@@ -18,6 +18,8 @@ def set_public(photo_id):
     photo.public_status = public_status
     flash(f'状态码已设置为：{public_status}', 'info')
     db.session.commit()
+    if 'photos_list' in request.referrer:
+        return redirect(request.referrer)
     return redirect(url_for('user.show_photo', photo_id=photo_id))
 
 
