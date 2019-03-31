@@ -2,10 +2,10 @@ from flask import render_template, flash, redirect, url_for, Blueprint, request
 from flask_login import login_user, logout_user, login_required, current_user
 
 from main.models.user import User
-from main.plugins.utils import redirect_back
 # from main.plugins.extensions import csrf
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
+from main.plugins.utils import redirect_back
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -14,7 +14,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('user.index', id=current_user.id))
+        return redirect(url_for('user.index', user_id=current_user.id))
     if request.method == 'POST':
         username = request.form.get('username')
         user = User.query.filter_by(username=username).first()
@@ -25,7 +25,7 @@ def login():
         else:
             remember = request.form.get('remember', False)
             login_user(user, remember)
-            return redirect_back('user.index', id=user.id)
+            return redirect_back('user.index', user_id=user.id)
     return render_template('auth/login.html')
 
 

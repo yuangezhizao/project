@@ -27,7 +27,8 @@
         {% if current_user.is_authenticated %}
             <div class="ui right dropdown item"><i class="info icon"></i>更多<i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item" href="{{ url_for('user.index', id=current_user.id) }}"><i class="settings icon"></i>我的</a>
+                    <a class="item" href="{{ url_for('user.index', user_id=current_user.id) }}"><i
+                            class="settings icon"></i>我的</a>
                     <a class="item" href="{{ url_for('auth.logout') }}" onclick="return auth.logout();"><i
                             class="sign out icon"></i>注销</a>
                 </div>

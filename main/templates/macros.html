@@ -20,7 +20,8 @@
                 </a>
             </div>
             <div class="content">
-                <a class="header" href="{{ url_for('user.index', id=photo.author.id) }}">{{ photo.author.name }}</a>
+                <a class="header"
+                   href="{{ url_for('user.index', user_id=photo.author.id) }}">{{ photo.author.name }}</a>
                 <div class="meta">
                     <a>{{ moment(photo.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}</a>
                 </div>

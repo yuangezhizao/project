@@ -14,17 +14,17 @@ from main.plugins.utils import allowed_file, rename_image, resize_image
 user_bp = Blueprint('user', __name__)
 
 
-@user_bp.route('/<id>')
+@user_bp.route('/<int:user_id>')
 @login_required
-def index(id):
-    user = User.query.filter_by(id=id).first_or_404()
+def index(user_id):
+    user = User.query.filter_by(id=user_id).first_or_404()
     if (not current_user.can('WATCH_OTHERS')) & (current_user != user):
         abort(403, '你的权限不足，缺少“WATCH_OTHERS”权限')
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['PHOTO_PER_PAGE']
     pagination = Photo.query.with_parent(user).order_by(Photo.timestamp.desc()).paginate(page, per_page)
     photos = pagination.items
-    return render_template('user/index.html', user=user, pagination=pagination, id=id, photos=photos)
+    return render_template('user/index.html', user=user, pagination=pagination, user_id=user_id, photos=photos)
 
 
 @user_bp.route('/upload', methods=['GET', 'POST'])
@@ -60,7 +60,7 @@ def upload():
             photo.set_task_by_name_third(task_name_third)
             db.session.add(photo)
             db.session.commit()
-            return redirect(url_for('user.index', id=current_user.id))
+            return redirect(url_for('user.index', user_id=current_user.id))
     return render_template('user/upload.html')
 
 

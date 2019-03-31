@@ -27,7 +27,7 @@ class AuthTestCase(BaseTestCase):
         self.assertIn('注销成功！', data)
 
     def test_login_protect(self):
-        response = self.client.get(url_for('user.index', id=0), follow_redirects=True)
+        response = self.client.get(url_for('user.index', user_id=0), follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn('未授权用户，请先登录！', data)
 
