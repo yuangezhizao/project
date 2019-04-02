@@ -100,6 +100,7 @@ class User(db.Model, UserMixin):
     depart = db.relationship('Depart', back_populates='users')
 
     photos = db.relationship('Photo', back_populates='author', cascade='all')
+    advice = db.relationship('Advive', back_populates='author', cascade='all')
     comments = db.relationship('Comment', back_populates='author', cascade='all')
 
     def __init__(self, **kwargs):

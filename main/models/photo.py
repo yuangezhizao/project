@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from main.plugins.extensions import db, whooshee
 from main.models.task_dict import task_dict
+from main.plugins.extensions import db, whooshee
 
 
 @whooshee.register_model('name_third')
@@ -60,16 +60,32 @@ class Photo(db.Model):
         db.session.commit()
 
 
+@whooshee.register_model('filter')
+class Advive(db.Model):
+    __tablename__ = 'advice'
+    id = db.Column(db.Integer, primary_key=True)
+    depart_id = db.Column(db.Integer)
+    passed_count = db.Column(db.Integer)
+    url = db.Column(db.Text)
+    filter = db.Column(db.Text)
+    status = db.Column(db.Integer, default=0)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    author = db.relationship('User', back_populates='advice')
+
+    comments = db.relationship('Comment', back_populates='advice', cascade='all')
+
+
 @whooshee.register_model('body')
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
-    depart_id = db.Column(db.Integer)
-    passed_count = db.Column(db.Integer)
-    url = db.Column(db.Text)
-    filter = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+
+    advice_id = db.Column(db.Integer, db.ForeignKey('advice.id'))
+    advice = db.relationship('Advive', back_populates='comments')
 
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     author = db.relationship('User', back_populates='comments')
