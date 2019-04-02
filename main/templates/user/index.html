@@ -78,6 +78,7 @@
             {% endif %}
             {% if current_user.can('COMMENT') %}
                 <a href="{{ url_for('ins.photos_list_comment') }}" class="ui brown button" target='_blank'>发表评论意见</a>
+                <a href="{{ url_for('ins.comments_list') }}" class="ui brown button" target='_blank'>发表评论意见</a>
             {% endif %}
         </div>
     {% endif %}
