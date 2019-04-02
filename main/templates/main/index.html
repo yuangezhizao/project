@@ -16,15 +16,17 @@
                 <div class="header">设置公开</div>
                 <div class="description">审核图片的安全性</div>
             </div>
-            <a href="{{ url_for('ins.photos_list') }}" class="ui attached button"><i class="calendar check icon"></i></a>
+            <a href="{{ url_for('ins.photos_list_set_public') }}" class="ui attached button"><i
+                    class="calendar check icon"></i></a>
         </div>
             <div class="pink card">
             <div class="content">
-                <div class="header">查看评论</div>
-                <div class="description">查看已有评论列表</div>
+                <div class="header">发表评论</div>
+                <div class="description">发表评论意见</div>
                 <div class="ui top right attached pink label">New</div>
             </div>
-            <a href="{{ url_for('ins.comments_list') }}" class="ui attached button"><i class="comments icon"></i></a>
+                <a href="{{ url_for('ins.photos_list_comment') }}" class="ui attached button"><i
+                        class="comments icon"></i></a>
         </div>
     </div>
 {% endblock %}

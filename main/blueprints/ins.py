@@ -21,25 +21,23 @@ def set_public(photo_id):
     return redirect(request.referrer)
 
 
-@ins_bp.route('/photos_list', methods=['GET', 'POST'])
+@ins_bp.route('/photos_list_set_public', methods=['GET', 'POST'])
 @login_required
 @permission_required('SET_PUBLIC')
-def photos_list():
+def photos_list_set_public():
     task_name_first = request.args.get('task_name_first', '0')
     task_name_second = request.args.get('task_name_second', '0')
     task_name_third = request.args.get('task_name_third', '0')
-    depart_id = request.args.get('depart_id', 0, type=int)
+    depart_id = current_user.depart_id
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['PHOTO_PER_PAGE']
-    filters = []
+    filters = [User.depart_id == depart_id, ]
     if task_name_first != '0':
         filters.append(Task.name_first == task_name_first)
     if task_name_second != '0':
         filters.append(Task.name_second == task_name_second)
     if task_name_third != '0':
         filters.append(Task.name_third == task_name_third)
-    if depart_id:
-        filters.append(User.depart_id == depart_id)
     if filters:
         pagination = Photo.query.join(Task).join(User).filter(*filters).order_by(Photo.timestamp.desc()).paginate(page,
                                                                                                                   per_page)
@@ -54,8 +52,40 @@ def photos_list():
         passed_count = Photo.query.filter_by(public_status=1).count()
         not_passed_count = Photo.query.filter_by(public_status=-1).count()
     photos = pagination.items
-    return render_template('ins/photos_list.html', all_count=all_count, wait_count=wait_count,
+    return render_template('ins/photos_list/set_public.html', all_count=all_count, wait_count=wait_count,
                            passed_count=passed_count, not_passed_count=not_passed_count,
+                           task_name_first=task_name_first, task_name_second=task_name_second,
+                           task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
+
+
+@ins_bp.route('/photos_list_comment', methods=['GET', 'POST'])
+@login_required
+@permission_required('COMMENT')
+def photos_list_comment():
+    task_name_first = request.args.get('task_name_first', '0')
+    task_name_second = request.args.get('task_name_second', '0')
+    task_name_third = request.args.get('task_name_third', '0')
+    depart_id = request.args.get('depart_id', 0, type=int)
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['PHOTO_PER_PAGE']
+    filters = [Photo.public_status == 1, ]
+    if task_name_first != '0':
+        filters.append(Task.name_first == task_name_first)
+    if task_name_second != '0':
+        filters.append(Task.name_second == task_name_second)
+    if task_name_third != '0':
+        filters.append(Task.name_third == task_name_third)
+    if depart_id:
+        filters.append(User.depart_id == depart_id)
+    if filters:
+        pagination = Photo.query.join(Task).join(User).filter(*filters).order_by(Photo.timestamp.desc()).paginate(page,
+                                                                                                                  per_page)
+        passed_count = Photo.query.join(Task).join(User).filter(*filters).filter(Photo.public_status == 1).count()
+    else:
+        pagination = Photo.query.order_by(Photo.timestamp.desc()).paginate(page, per_page)
+        passed_count = Photo.query.filter_by(public_status=1).count()
+    photos = pagination.items
+    return render_template('ins/photos_list/comment.html', passed_count=passed_count,
                            task_name_first=task_name_first, task_name_second=task_name_second,
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
 
