@@ -1,11 +1,12 @@
-from flask import request, url_for, redirect, current_app
-from urllib.parse import urlparse, urljoin
 import os
 import time
+from urllib.parse import urlparse, urljoin
+
 import PIL
 from PIL import Image
+from flask import request, url_for, redirect, current_app
 
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'bmp'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
 
 
 def allowed_file(filename):
