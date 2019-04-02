@@ -40,7 +40,7 @@ def upload():
             flash('请填写“描述”', 'negative')
             return redirect(request.url)
         description = request.form.get('description')
-        if not request.form.get('task_name_third'):
+        if not request.form.get('task_name_third') or (request.form.get('task_name_third') == '0'):
             flash('请选择“任务”', 'negative')
             return redirect(request.url)
         task_name_third = request.form.get('task_name_third')
@@ -61,6 +61,8 @@ def upload():
             db.session.add(photo)
             db.session.commit()
             return redirect(url_for('user.index', user_id=current_user.id))
+        else:
+            flash('“图片”类型错误', 'negative')
     return render_template('user/upload.html')
 
 
