@@ -36,7 +36,7 @@
             <div class="extra content" style="text-align: center;">
                 {{ photo.author.depart.name }}
             </div>
-            {% if current_user.can('SET_PUBLIC') %}
+            {% if 'photos_list_set_public' in request.url and current_user.can('SET_PUBLIC') %}
                 <form style="text-align: center;" class="ui inline" method="post"
                       action="{{ url_for('ins.set_public', photo_id=photo.id) }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -60,8 +60,6 @@
             {% endif %}
             {# TODO：点击 icon 操作 #}
         </div>
-    {% else %}
-        <div class="ui negative message">图片尚未公开</div>
     {% endif %}
 {% endmacro %}
 
