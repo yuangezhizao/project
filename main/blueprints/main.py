@@ -6,7 +6,8 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    return render_template('main/index.html')
+    notice = ''
+    return render_template('main/index.html', notice=notice)
 
 
 @main_bp.route('/hello_world')

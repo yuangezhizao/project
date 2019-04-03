@@ -3,6 +3,14 @@
 {% block title %}首页{% endblock %}
 
 {% block content %}
+    {% if notice %}
+        <div class="ui blue message">
+            <i class="close icon"></i>
+            <div class="header">
+            </div>
+            {{ notice }}
+        </div>
+    {% endif %}
     <div class="ui three doubling cards">
         <div class="black card">
             <div class="content">
@@ -24,7 +32,7 @@
                 <div class="header">发表评论</div>
                 <div class="description">发表评论意见</div>
             </div>
-            <a href="{{ url_for('ins.photos_list_comment') }}" class="ui attached button"><i
+            <a href="{{ url_for('ins.photos_list_advice') }}" class="ui attached button"><i
                     class="comments icon"></i></a>
         </div>
         <div class="purple card">
@@ -33,7 +41,7 @@
                 <div class="description">查看评论意见</div>
                 <div class="ui top right attached pink label">New</div>
             </div>
-            <a href="{{ url_for('ins.comments_list') }}" class="ui attached button"><i
+            <a href="{{ url_for('ins.advive_list') }}" class="ui attached button"><i
                     class="comments icon"></i></a>
         </div>
     </div>
