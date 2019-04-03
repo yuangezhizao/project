@@ -13,6 +13,7 @@ flask-wtf = "*"
 flask-moment = "*"
 flask-migrate = "*"
 pillow = "*"
+gitpython = "*"
 
 [dev-packages]
 
