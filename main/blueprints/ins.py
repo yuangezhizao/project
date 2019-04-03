@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app
 from flask_login import login_required, current_user
 
-from main.models.photo import Photo, Task, Comment
+from main.models.photo import Photo, Task, Comment, Advive
 from main.models.user import User
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
@@ -58,10 +58,10 @@ def photos_list_set_public():
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
 
 
-@ins_bp.route('/photos_list_comment', methods=['GET', 'POST'])
+@ins_bp.route('/photos_list_advice', methods=['GET', 'POST'])
 @login_required
-@permission_required('COMMENT')
-def photos_list_comment():
+@permission_required('ADVICE')
+def photos_list_advice():
     task_name_first = request.args.get('task_name_first', '0')
     task_name_second = request.args.get('task_name_second', '0')
     task_name_third = request.args.get('task_name_third', '0')
@@ -85,7 +85,7 @@ def photos_list_comment():
         pagination = Photo.query.order_by(Photo.timestamp.desc()).paginate(page, per_page)
         passed_count = Photo.query.filter_by(public_status=1).count()
     photos = pagination.items
-    return render_template('ins/photos_list/comment.html', passed_count=passed_count,
+    return render_template('ins/photos_list/advive.html', passed_count=passed_count,
                            task_name_first=task_name_first, task_name_second=task_name_second,
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
 
@@ -99,24 +99,34 @@ def comment():
     passed_count = request.form.get('passed_count')
     url = request.form.get('url')
     filter = request.form.get('filter')
+    advice = Advive(depart_id=depart_id,
+                    passed_count=passed_count,
+                    url=url,
+                    filter=filter,
+                    author=current_user._get_current_object())
     comment = Comment(body=body,
-                      depart_id=depart_id,
-                      passed_count=passed_count,
-                      url=url,
-                      filter=filter,
+                      advice=advice,
                       author=current_user._get_current_object())
-    db.session.add(comment)
+    db.session.add(advice, comment)
     db.session.commit()
     flash('评论成功！', 'success')
-    return redirect(url_for('ins.photos_list'))
+    return redirect(url_for('ins.photos_list_advice'))
 
 
-@ins_bp.route('/comments_list', methods=['GET', 'POST'])
+@ins_bp.route('/advive_list', methods=['GET', 'POST'])
 @login_required
 @permission_required('COMMENT')
-def comments_list():
+def advive_list():
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['PHOTO_PER_PAGE']
-    pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(page, per_page)
-    comments = pagination.items
-    return render_template('ins/comments_list.html', pagination=pagination, comments=comments)
+    pagination = Advive.query.order_by(Advive.timestamp.desc()).paginate(page, per_page)
+    advive_list = pagination.items
+    return render_template('ins/advive_list.html', pagination=pagination, advive_list=advive_list)
+
+
+@ins_bp.route('/advive/<int:advive_id>')
+@login_required
+@permission_required('COMMENT')
+def show_advive(advive_id):
+    advive = Advive.query.get_or_404(advive_id)
+    return render_template('ins/advive.html', advive=advive)

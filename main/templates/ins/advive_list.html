@@ -27,31 +27,36 @@
             <th>部门</th>
             <th>时间戳</th>
             <th>评论者</th>
+            <th>状态</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        {% for comment in comments %}
+        {% for advive in advive_list %}
             <tr>
                 <td>
-                    {{ comment.id }}
+                    {{ advive.id }}
                 </td>
                 <td>
-                    <a href="{{ comment.url}}">{{ comment.filter }}</a>
+                    <a href="{{ advive.url }}">{{ advive.filter }}</a>
                 </td>
                 <td>
-                    {{ comment.passed_count }}
+                    {{ advive.passed_count }}
                 </td>
                 <td>
-                    {{ comment.body }}
                 </td>
                 <td>
-                    {{ comment.depart_id }}
+                    {{ advive.depart_id }}
                 </td>
                 <td>
-                    {{ moment(comment.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}
+                    {{ moment(advive.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}
                 </td>
-
-                <td>{{ comment.author.name }}
+                <td>{{ advive.author.name }}
+                </td>
+                <td>未回复|已回复|已完成
+                </td>
+                <td>
+                    <a class="ui blue mini button" href="{{ url_for('ins.show_advive', advive_id=advive.id) }}">回复</a>
                 </td>
             </tr>
         {% endfor %}
