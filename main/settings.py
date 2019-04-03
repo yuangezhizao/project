@@ -25,6 +25,8 @@ class BaseConfig:
         PHOTO_SIZE['medium']: '_m',  # display
     }
 
+    GIT_PATH = basedir
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     WHOOSHEE_MIN_STRING_LEN = 1
