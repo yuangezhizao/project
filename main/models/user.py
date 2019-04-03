@@ -34,7 +34,7 @@ class Role(db.Model):
         roles_permissions_map = {
             'User': ['UPLOAD'],
             'Inspector': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'COMMENT'],
-            'Moderator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'COMMENT'],
+            'Moderator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'ADVICE', 'COMMENT'],
             'Administrator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'COMMENT', 'ADMINISTER']
         }
 
