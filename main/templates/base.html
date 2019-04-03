@@ -23,6 +23,7 @@
     <div class="ui blue pointing menu">
         {% block nav %}
             <a class="active item"><i class="home icon"></i>首页</a>
+            <a class="item" href="{{ url_for('main.commits') }}"><i class="arrow up icon"></i>更新</a>
         {% endblock %}
         {% if current_user.is_authenticated %}
             <div class="ui right dropdown item"><i class="info icon"></i>更多<i class="dropdown icon"></i>
