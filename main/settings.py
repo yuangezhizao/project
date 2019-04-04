@@ -17,8 +17,10 @@ class BaseConfig:
 
     UPLOAD_PATH = os.path.join(basedir, 'uploads')
 
-    PHOTO_SIZE = {'small': 400,
-                  'medium': 800}
+    PHOTO_SIZE = {
+        'small': 400,
+        'medium': 800
+    }
 
     PHOTO_SUFFIX = {
         PHOTO_SIZE['small']: '_s',  # thumbnail
@@ -59,6 +61,7 @@ class TestingConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
+    SQLALCHEMY_DATABASE_URI = '',
 
 
 config = {
