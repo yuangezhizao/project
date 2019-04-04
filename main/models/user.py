@@ -35,7 +35,7 @@ class Role(db.Model):
             'User': ['UPLOAD'],
             'Inspector': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'COMMENT'],
             'Moderator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'ADVICE', 'COMMENT'],
-            'Administrator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'COMMENT', 'ADMINISTER']
+            'Administrator': ['UPLOAD', 'RIGISTER', 'WATCH_OTHERS', 'SET_PUBLIC', 'ADVICE', 'COMMENT', 'ADMINISTER']
         }
 
         # 权限分配：
