@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app
 from flask_login import login_required, current_user
 
-from main.models.photo import Photo, Task, Comment, Advive
+from main.models.photo import Photo, Task, Advive
 from main.models.user import User
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
@@ -103,11 +103,9 @@ def comment():
                     passed_count=passed_count,
                     url=url,
                     filter=filter,
+                    body=body,
                     author=current_user._get_current_object())
-    comment = Comment(body=body,
-                      advice=advice,
-                      author=current_user._get_current_object())
-    db.session.add(advice, comment)
+    db.session.add(advice)
     db.session.commit()
     flash('评论成功！', 'success')
     return redirect(url_for('ins.photos_list_advice'))
