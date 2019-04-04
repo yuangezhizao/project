@@ -68,7 +68,6 @@ class Advive(db.Model):
     passed_count = db.Column(db.Integer)
     url = db.Column(db.Text)
     filter = db.Column(db.Text)
-    body = db.Column(db.Text)
     status = db.Column(db.Integer, default=0)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
