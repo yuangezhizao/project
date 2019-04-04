@@ -165,11 +165,7 @@
 
 {% block script %}
     {{ super() }}
-    <script src="{{ url_for('static', filename='static/js/jquery.tablesorter.combined.min.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            $("#photos_list_table").tablesorter({sortList: [[0, 0]]});
-        });
         // 下拉列表引用自 http://sign.lngqt.com/index.php?m=Home&c=Colleges，暂未使用 semantic-ui dropdown 特性
         $('#task_name_first').change(function () {
             var task_name_first = $(this).val();
