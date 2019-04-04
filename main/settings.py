@@ -43,6 +43,7 @@ class BaseConfig:
     PERMANENT_SESSION_LIFETIME = timedelta(days=365)
 
     PHOTO_PER_PAGE = 8
+    ADVICE_LIST_PER_PAGE = 20
 
 
 class DevelopmentConfig(BaseConfig):
@@ -61,6 +62,7 @@ class TestingConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
+
     SQLALCHEMY_DATABASE_URI = '',
 
 

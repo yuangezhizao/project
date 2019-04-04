@@ -118,7 +118,7 @@ def comment():
 @permission_required('COMMENT')
 def advive_list():
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['PHOTO_PER_PAGE']
+    per_page = current_app.config['ADVICE_LIST_PER_PAGE']
     pagination = Advive.query.order_by(Advive.timestamp.desc()).paginate(page, per_page)
     advive_list = pagination.items
     return render_template('ins/advive_list.html', pagination=pagination, advive_list=advive_list)
