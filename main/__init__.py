@@ -1,19 +1,21 @@
-from flask import Flask, render_template, request
-from flask_wtf.csrf import CSRFError
+import datetime
+import os
+
+import click
+import git
+from flask import Flask, render_template, request, current_app
 from flask_login import current_user
 from flask_migrate import Migrate
-import os
-import click
-import datetime
+from flask_wtf.csrf import CSRFError
 
-from main.settings import config
-from main.blueprints.main import main_bp
 from main.blueprints.auth import auth_bp
-from main.blueprints.user import user_bp
 from main.blueprints.ins import ins_bp
-from main.plugins.extensions import db, login_manager, whooshee, csrf, moment
-from main.models.user import User, Role, Depart
+from main.blueprints.main import main_bp
+from main.blueprints.user import user_bp
 from main.models.photo import Task
+from main.models.user import User, Role, Depart
+from main.plugins.extensions import db, login_manager, whooshee, csrf, moment
+from main.settings import config
 
 
 def create_app(config_name=None):
@@ -157,7 +159,8 @@ def register_template_context(app):
             'user': current_user,
             'ip': request.remote_addr,
             'url': request.url,
-            'timestamp': datetime.datetime.utcnow()
+            'timestamp': datetime.datetime.utcnow(),
+            'version': git.Repo(current_app.config['GIT_PATH']).git.describe(always=True)
         }
         return template_variables
 

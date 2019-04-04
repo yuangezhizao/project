@@ -17,6 +17,5 @@ def hello_world():
 
 @main_bp.route('/commits')
 def commits():
-    version = git.Repo(current_app.config['GIT_PATH']).git.describe(always=True)
     commits = git.Repo(current_app.config['GIT_PATH']).iter_commits()
-    return render_template('main/commits.html', version=version, commits=commits)
+    return render_template('main/commits.html', commits=commits)
