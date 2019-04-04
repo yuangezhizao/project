@@ -90,10 +90,10 @@ def photos_list_advice():
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
 
 
-@ins_bp.route('/comment', methods=['POST'])
+@ins_bp.route('/advice', methods=['POST'])
 @login_required
-@permission_required('COMMENT')
-def comment():
+@permission_required('ADVICE')
+def advice():
     body = request.form.get('body')
     depart_id = request.form.get('depart_id')
     passed_count = request.form.get('passed_count')
