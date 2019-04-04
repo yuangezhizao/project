@@ -17,10 +17,10 @@
             <h2>评论列表</h2>
         </div>
     </div>
-    <table id="photos_list_table" class="tablesorter ui sortable unstackable celled striped red compact table">
+    <table id="advice_list_table" class="tablesorter ui sortable unstackable celled striped red compact table">
         <thead>
         <tr class="positive">
-            <th class="sorted ascending">ID</th>
+            <th>ID</th>
             <th>筛选条件</th>
             <th>记录数</th>
             <th>评论</th>
@@ -44,6 +44,7 @@
                     {{ advive.passed_count }}
                 </td>
                 <td>
+                    {{ advive.comments[0].body }}
                 </td>
                 <td>
                     {{ advive.depart_id }}
@@ -53,20 +54,45 @@
                 </td>
                 <td>{{ advive.author.name }}
                 </td>
-                <td>未回复|已回复|已完成
+                <td>
+                    {% if advive.status == 0 %}
+                        未回复
+                    {% elif advive.status == 1 %}
+                        已回复
+                    {% elif advive.status == 2 %}
+                        新回复
+                    {% else %}
+                        已完成
+                    {% endif %}
                 </td>
                 <td>
-                    <a class="ui blue mini button" href="{{ url_for('ins.show_advive', advive_id=advive.id) }}">回复</a>
+                    {% if advive.status == 0 %}
+                        <a class="ui green mini button" href="{{ url_for('ins.show_advive', advive_id=advive.id) }}">首次回复</a>
+                    {% elif advive.status == 1 %}
+                        <a class="ui blue mini button" href="{{ url_for('ins.show_advive', advive_id=advive.id) }}">等待新回复</a>
+                    {% elif advive.status == 2 %}
+                        <a class="ui brown mini button" href="{{ url_for('ins.show_advive', advive_id=advive.id) }}">继续回复</a>
+                    {% else %}
+                        <a class="ui black mini button"
+                           href="{{ url_for('ins.show_advive', advive_id=advive.id) }}">已完成</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-
+    {% if advive_list %}
+        {{ pagination_widget(pagination, 'ins.advive_list', page=page) }}
+    {% endif %}
 {% endblock %}
 
 {% block script %}
     {{ super() }}
     <script src="{{ url_for('static', filename='static/js/jquery.tablesorter.combined.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+                $("#advice_list_table").tablesorter({sortList: [[0, 0]]});
+            }
+        );
+    </script>
 {% endblock %}
