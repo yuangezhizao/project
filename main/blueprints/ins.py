@@ -140,7 +140,7 @@ def comment():
     body = request.form.get('body')
     advice_id = request.form.get('advice_id')
     advice = Advice.query.get_or_404(advice_id)
-    if not current_user.can('ADVICE') and advice.comments[0].author == current_user:
+    if not current_user.can('ADVICE') and advice.comments[-1].author == current_user:
         flash('您已经回复，请等待新回复！', 'negative')
     else:
         if advice.status == 0:

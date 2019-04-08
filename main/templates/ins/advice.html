@@ -69,7 +69,7 @@
                     </div>
                 </div>
             {% endfor %}
-            {% if not current_user.can('ADVICE') and advice.comments[0].author == current_user %}
+            {% if not current_user.can('ADVICE') and advice.comments[-1].author == current_user %}
                 <div class="ui warning message">您已经回复，请等待新回复</div>
             {% else %}
                 <form action="{{ url_for('ins.comment') }}" method="post" class="ui reply form">
