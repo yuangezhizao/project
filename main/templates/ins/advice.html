@@ -69,17 +69,21 @@
                     </div>
                 </div>
             {% endfor %}
-            <form action="{{ url_for('ins.comment') }}" method="post" class="ui reply form">
-                <div class="field">
-                    <div class="ui input">
+            {% if not current_user.can('ADVICE') and advive.comments[0].author == current_user %}
+                <div class="ui warning message">您已经回复，请等待新回复</div>
+            {% else %}
+                <form action="{{ url_for('ins.comment') }}" method="post" class="ui reply form">
+                    <div class="field">
+                        <div class="ui input">
                         <textarea class="ui input" style="margin-top: 0px; margin-bottom: 0px; height: 112px;"
                                   type="text" rows="5" name="body" placeholder="请输入评论……" autofocus></textarea>
+                        </div>
                     </div>
-                </div>
-                <input type="hidden" name="advice_id" value="{{ advive.id }}"/>
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input class="ui positive button" type="submit" value="提交">
-            </form>
+                    <input type="hidden" name="advice_id" value="{{ advive.id }}"/>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input class="ui positive button" type="submit" value="提交">
+                </form>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

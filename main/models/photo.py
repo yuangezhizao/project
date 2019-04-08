@@ -61,7 +61,7 @@ class Photo(db.Model):
 
 
 @whooshee.register_model('filter')
-class Advive(db.Model):
+class Advice(db.Model):
     __tablename__ = 'advice'
     id = db.Column(db.Integer, primary_key=True)
     depart_id = db.Column(db.Integer)
@@ -85,7 +85,7 @@ class Comment(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
     advice_id = db.Column(db.Integer, db.ForeignKey('advice.id'))
-    advice = db.relationship('Advive', back_populates='comments')
+    advice = db.relationship('Advice', back_populates='comments')
 
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     author = db.relationship('User', back_populates='comments')

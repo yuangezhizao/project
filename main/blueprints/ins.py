@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app
 from flask_login import login_required, current_user
 
-from main.models.photo import Photo, Task, Comment, Advive
+from main.models.photo import Photo, Task, Comment, Advice
 from main.models.user import User
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
@@ -85,7 +85,7 @@ def photos_list_advice():
         pagination = Photo.query.order_by(Photo.timestamp.desc()).paginate(page, per_page)
         passed_count = Photo.query.filter_by(public_status=1).count()
     photos = pagination.items
-    return render_template('ins/photos_list/advive.html', passed_count=passed_count,
+    return render_template('ins/photos_list/advice.html', passed_count=passed_count,
                            task_name_first=task_name_first, task_name_second=task_name_second,
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
 
@@ -99,7 +99,7 @@ def advice():
     passed_count = request.form.get('passed_count')
     url = request.form.get('url')
     filter = request.form.get('filter')
-    advice = Advive(depart_id=depart_id,
+    advice = Advice(depart_id=depart_id,
                     passed_count=passed_count,
                     url=url,
                     filter=filter,
@@ -113,24 +113,24 @@ def advice():
     return redirect(url_for('ins.photos_list_advice'))
 
 
-@ins_bp.route('/advive_list', methods=['GET', 'POST'])
+@ins_bp.route('/advice_list', methods=['GET', 'POST'])
 @login_required
 @permission_required('COMMENT')
-def advive_list():
+def advice_list():
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['ADVICE_LIST_PER_PAGE']
-    pagination = Advive.query.order_by(Advive.timestamp.desc()).paginate(page, per_page)
-    advive_list = pagination.items
-    return render_template('ins/advive_list.html', pagination=pagination, advive_list=advive_list)
+    pagination = Advice.query.order_by(Advice.timestamp.desc()).paginate(page, per_page)
+    advice_list = pagination.items
+    return render_template('ins/advice_list.html', pagination=pagination, advice_list=advice_list)
 
 
-@ins_bp.route('/advive/<int:advice_id>')
+@ins_bp.route('/advice/<int:advice_id>')
 @login_required
 @permission_required('COMMENT')
-def show_advive(advice_id):
-    advive = Advive.query.get_or_404(advice_id)
+def show_advice(advice_id):
+    advice = Advice.query.get_or_404(advice_id)
     comments = Comment.query.filter_by(advice_id=advice_id)
-    return render_template('ins/advive.html', advive=advive, comments=comments)
+    return render_template('ins/advice.html', advice=advice, comments=comments)
 
 
 @ins_bp.route('/comment', methods=['POST'])
@@ -139,15 +139,18 @@ def show_advive(advice_id):
 def comment():
     body = request.form.get('body')
     advice_id = request.form.get('advice_id')
-    advice = Advive.query.get_or_404(advice_id)
-    if advice.status == 0:
-        advice.status = 1
-    elif advice.status == 1:
-        advice.status = 0
-    comment = Comment(body=body,
-                      advice=advice,
-                      author=current_user)
-    db.session.add(advice, comment)
-    db.session.commit()
+    advice = Advice.query.get_or_404(advice_id)
+    if not current_user.can('ADVICE') and advice.comments[0].author == current_user:
+        flash('您已经回复，请等待新回复！', 'negative')
+    else:
+        if advice.status == 0:
+            advice.status = 1
+        elif advice.status == 1:
+            advice.status = 0
+        comment = Comment(body=body,
+                          advice=advice,
+                          author=current_user)
+        db.session.add(advice, comment)
+        db.session.commit()
     flash('回复成功！', 'success')
-    return redirect(url_for('ins.show_advive', advice_id=advice_id))
+    return redirect(url_for('ins.show_advice', advice_id=advice_id))
