@@ -60,7 +60,7 @@ def photos_list_set_public():
 
 @ins_bp.route('/photos_list_advice', methods=['GET', 'POST'])
 @login_required
-@permission_required('ADVICE')
+@permission_required('COMMENT')
 def photos_list_advice():
     task_name_first = request.args.get('task_name_first', '0')
     task_name_second = request.args.get('task_name_second', '0')
