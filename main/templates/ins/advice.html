@@ -15,30 +15,30 @@
             <table class="ui unstackable celled striped blue compact table">
                 <thead>
                 <tr>
-                    <th colspan="2">评论 id：{{ advive.id }}</th>
+                    <th colspan="2">评论 id：{{ advice.id }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>筛选条件</td>
-                    <td>{{ advive.filter }}</td>
+                    <td>{{ advice.filter }}</td>
                 </tr>
                 <tr>
                     <td>筛选地址</td>
-                    <td><a href="{{ advive.url }}" target="_blank">点击跳转</a></td>
+                    <td><a href="{{ advice.url }}" target="_blank">点击跳转</a></td>
                 </tr>
                 <tr>
                     <td>记录数</td>
-                    <td>{{ advive.passed_count }}</td>
+                    <td>{{ advice.passed_count }}</td>
                 </tr>
                 <tr>
                     <td>状态</td>
                     <td>
-                        {% if advive.status == 0 %}
+                        {% if advice.status == 0 %}
                             未回复
-                        {% elif advive.status == 1 %}
+                        {% elif advice.status == 1 %}
                             已回复
-                        {% elif advive.status == 2 %}
+                        {% elif advice.status == 2 %}
                             新回复
                         {% else %}
                             已完成
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             {% endfor %}
-            {% if not current_user.can('ADVICE') and advive.comments[0].author == current_user %}
+            {% if not current_user.can('ADVICE') and advice.comments[0].author == current_user %}
                 <div class="ui warning message">您已经回复，请等待新回复</div>
             {% else %}
                 <form action="{{ url_for('ins.comment') }}" method="post" class="ui reply form">
@@ -79,7 +79,7 @@
                                   type="text" rows="5" name="body" placeholder="请输入评论……" autofocus></textarea>
                         </div>
                     </div>
-                    <input type="hidden" name="advice_id" value="{{ advive.id }}"/>
+                    <input type="hidden" name="advice_id" value="{{ advice.id }}"/>
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input class="ui positive button" type="submit" value="提交">
                 </form>

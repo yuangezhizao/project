@@ -32,60 +32,60 @@
         </tr>
         </thead>
         <tbody>
-        {% for advive in advive_list %}
+        {% for advice in advice_list %}
             <tr>
                 <td>
-                    {{ advive.id }}
+                    {{ advice.id }}
                 </td>
                 <td>
-                    <a href="{{ advive.url }}" target="_blank">{{ advive.filter }}</a>
+                    <a href="{{ advice.url }}" target="_blank">{{ advice.filter }}</a>
                 </td>
                 <td>
-                    {{ advive.passed_count }}
+                    {{ advice.passed_count }}
                 </td>
                 <td>
-                    {{ advive.comments[0].body }}
+                    {{ advice.comments[0].body }}
                 </td>
                 <td>
-                    {{ advive.depart_id }}
+                    {{ advice.depart_id }}
                 </td>
                 <td>
-                    {{ moment(advive.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}
+                    {{ moment(advice.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}
                 </td>
-                <td>{{ advive.author.name }}
+                <td>{{ advice.author.name }}
                 </td>
                 <td>
-                    {% if advive.status == 0 %}
+                    {% if advice.status == 0 %}
                         未回复
-                    {% elif advive.status == 1 %}
+                    {% elif advice.status == 1 %}
                         已回复
-                    {% elif advive.status == 2 %}
+                    {% elif advice.status == 2 %}
                         新回复
                     {% else %}
                         已完成
                     {% endif %}
                 </td>
                 <td>
-                    {% if advive.status == 0 %}
-                        <a class="ui green mini button" href="{{ url_for('ins.show_advive', advice_id=advive.id) }}"
+                    {% if advice.status == 0 %}
+                        <a class="ui green mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
                            target="_blank">首次回复</a>
-                    {% elif advive.status == 1 %}
-                        <a class="ui blue mini button" href="{{ url_for('ins.show_advive', advice_id=advive.id) }}"
+                    {% elif advice.status == 1 %}
+                        <a class="ui blue mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
                            target="_blank">等待新回复</a>
-                    {% elif advive.status == 2 %}
-                        <a class="ui brown mini button" href="{{ url_for('ins.show_advive', advice_id=advive.id) }}"
+                    {% elif advice.status == 2 %}
+                        <a class="ui brown mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
                            target="_blank">继续回复</a>
                     {% else %}
                         <a class="ui black mini button"
-                           href="{{ url_for('ins.show_advive', advice_id=advive.id) }}">已完成</a>
+                           href="{{ url_for('ins.show_advice', advice_id=advice.id) }}">已完成</a>
                     {% endif %}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    {% if advive_list %}
-        {{ pagination_widget(pagination, 'ins.advive_list', page=page) }}
+    {% if advice_list %}
+        {{ pagination_widget(pagination, 'ins.advice_list', page=page) }}
     {% endif %}
 {% endblock %}
 
