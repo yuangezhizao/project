@@ -152,7 +152,7 @@
     {% if photos %}
         {{ pagination_widget(pagination, 'ins.photos_list', task_name_first=task_name_first, task_name_second=task_name_second, task_name_third=task_name_third, depart_id=depart_id) }}
     {% endif %}
-    {% if depart_id != 0 and current.user.can('ADVICE') %}
+    {% if depart_id != 0 and current_user.can('ADVICE') %}
         <div class="ui tall stacked segment">
             <h3 class="ui dividing header">评论</h3>
             <form action="{{ url_for('ins.advice') }}" method="post" class="ui reply form">
