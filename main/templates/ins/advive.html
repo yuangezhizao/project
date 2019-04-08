@@ -1,0 +1,85 @@
+{% extends "/base.html" %}
+{% from 'macros.html' import message_part with context %}
+
+{% block title %}评论详情{% endblock %}
+
+{% block nav %}
+    <a class="active item"><i class="comments icon"></i>评论详情</a>
+    <a class="item" href="{{ request.referrer }}"><i class="arrow left icon"></i>返回前页</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="content">
+            <table class="ui unstackable celled striped blue compact table">
+                <thead>
+                <tr>
+                    <th colspan="2">评论 id：{{ advive.id }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>筛选条件</td>
+                    <td>{{ advive.filter }}</td>
+                </tr>
+                <tr>
+                    <td>筛选地址</td>
+                    <td><a href="{{ advive.url }}" target="_blank">点击跳转</a></td>
+                </tr>
+                <tr>
+                    <td>记录数</td>
+                    <td>{{ advive.passed_count }}</td>
+                </tr>
+                <tr>
+                    <td>状态</td>
+                    <td>
+                        {% if advive.status == 0 %}
+                            未回复
+                        {% elif advive.status == 1 %}
+                            已回复
+                        {% elif advive.status == 2 %}
+                            新回复
+                        {% else %}
+                            已完成
+                        {% endif %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{ message_part() }}
+    <div class="ui raised segment">
+        <div class="ui comments">
+            <h3 class="ui dividing header">评论历史</h3>
+            {% for comment in comments %}
+                <div class="comment">
+                    <a class="avatar">
+                        <i class="comment icon"></i>
+                    </a>
+                    <div class="content">
+                        <a class="author">{{ comment.author.name }}</a>
+                        <div class="metadata">
+                            <span class="date">{{ moment(comment.timestamp).format('YYYY MMMM Do ，h:mm:ss a') }}</span>
+                        </div>
+                        <div class="text">
+                            {{ comment.body }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <form action="{{ url_for('ins.comment') }}" method="post" class="ui reply form">
+                <div class="field">
+                    <div class="ui input">
+                        <textarea class="ui input" style="margin-top: 0px; margin-bottom: 0px; height: 112px;"
+                                  type="text" rows="5" name="body" placeholder="请输入评论……" autofocus></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="advice_id" value="{{ advive.id }}"/>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input class="ui positive button" type="submit" value="提交">
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -67,17 +67,17 @@
                 </td>
                 <td>
                     {% if advive.status == 0 %}
-                        <a class="ui green mini button" href="{{ url_for('ins.show_advive', advive_id=advive.id) }}"
+                        <a class="ui green mini button" href="{{ url_for('ins.show_advive', advice_id=advive.id) }}"
                            target="_blank">首次回复</a>
                     {% elif advive.status == 1 %}
-                        <a class="ui blue mini button" href="{{ url_for('ins.show_advive', advive_id=advive.id) }}"
+                        <a class="ui blue mini button" href="{{ url_for('ins.show_advive', advice_id=advive.id) }}"
                            target="_blank">等待新回复</a>
                     {% elif advive.status == 2 %}
-                        <a class="ui brown mini button" href="{{ url_for('ins.show_advive', advive_id=advive.id) }}"
+                        <a class="ui brown mini button" href="{{ url_for('ins.show_advive', advice_id=advive.id) }}"
                            target="_blank">继续回复</a>
                     {% else %}
                         <a class="ui black mini button"
-                           href="{{ url_for('ins.show_advive', advive_id=advive.id) }}">已完成</a>
+                           href="{{ url_for('ins.show_advive', advice_id=advive.id) }}">已完成</a>
                     {% endif %}
                 </td>
             </tr>

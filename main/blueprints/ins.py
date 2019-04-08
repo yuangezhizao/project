@@ -124,9 +124,30 @@ def advive_list():
     return render_template('ins/advive_list.html', pagination=pagination, advive_list=advive_list)
 
 
-@ins_bp.route('/advive/<int:advive_id>')
+@ins_bp.route('/advive/<int:advice_id>')
 @login_required
 @permission_required('COMMENT')
-def show_advive(advive_id):
-    advive = Advive.query.get_or_404(advive_id)
-    return render_template('ins/advive.html', advive=advive)
+def show_advive(advice_id):
+    advive = Advive.query.get_or_404(advice_id)
+    comments = Comment.query.filter_by(advice_id=advice_id)
+    return render_template('ins/advive.html', advive=advive, comments=comments)
+
+
+@ins_bp.route('/comment', methods=['POST'])
+@login_required
+@permission_required('COMMENT')
+def comment():
+    body = request.form.get('body')
+    advice_id = request.form.get('advice_id')
+    advice = Advive.query.get_or_404(advice_id)
+    if advice.status == 0:
+        advice.status = 1
+    elif advice.status == 1:
+        advice.status = 0
+    comment = Comment(body=body,
+                      advice=advice,
+                      author=current_user)
+    db.session.add(advice, comment)
+    db.session.commit()
+    flash('回复成功！', 'success')
+    return redirect(url_for('ins.show_advive', advice_id=advice_id))
