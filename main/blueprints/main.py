@@ -1,10 +1,40 @@
 import git
-from flask import Blueprint, render_template, current_app
+from flask import Blueprint, render_template, current_app, request
+
+from main.models.photo import Photo, Task
+from main.models.user import User
 
 main_bp = Blueprint('main', __name__)
 
 
 @main_bp.route('/')
+def intro():
+    task_name_first = request.args.get('task_name_first', '0')
+    task_name_second = request.args.get('task_name_second', '0')
+    task_name_third = request.args.get('task_name_third', '0')
+    depart_id = request.args.get('depart_id', 0, type=int)
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['PHOTO_PER_PAGE']
+    filters = [Photo.public_status == 1, ]
+    if task_name_first != '0':
+        filters.append(Task.name_first == task_name_first)
+    if task_name_second != '0':
+        filters.append(Task.name_second == task_name_second)
+    if task_name_third != '0':
+        filters.append(Task.name_third == task_name_third)
+    if depart_id:
+        filters.append(User.depart_id == depart_id)
+    if filters:
+        pagination = Photo.query.join(Task).join(User).filter(*filters).order_by(Photo.timestamp.desc()).paginate(page,
+                                                                                                                  per_page)
+    else:
+        pagination = Photo.query.order_by(Photo.timestamp.desc()).paginate(page, per_page)
+    photos = pagination.items
+    return render_template('main/intro.html', task_name_first=task_name_first, task_name_second=task_name_second,
+                           task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
+
+
+@main_bp.route('/index')
 def index():
     notice = ''
     return render_template('main/index.html', notice=notice)

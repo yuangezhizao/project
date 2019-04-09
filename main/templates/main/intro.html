@@ -1,0 +1,142 @@
+{% extends "/base.html" %}
+{% from 'macros.html' import photo_card, message_part, pagination_widget with context %}
+
+{% block title %}图片展示{% endblock %}
+
+{% block nav %}
+    <a class="active item"><i class="picture icon"></i>图片展示</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow right icon"></i>进入首页</a>
+{% endblock %}
+
+{% block content %}
+    {% block wide %}
+        <div class="sixteen wide column">
+    {% endblock %}
+    <div class="ui dividing red header">
+        <div class="content">
+            <h2>图片展示</h2>
+        </div>
+    </div>
+    {{ message_part() }}
+    <div class="ui blue message">
+        当前筛选条件【
+        {% if task_name_first != '0' %}
+            任务分类一：{{ task_name_first }}；
+        {% endif %}
+        {% if task_name_second != '0' %}
+            任务分类二：{{ task_name_second }}；
+        {% endif %}
+        {% if task_name_third != '0' %}
+            任务分类三：{{ task_name_third }}
+        {% endif %}
+        】
+    </div>
+    <form action="" class="ui form" method="get">
+        <div class="four fields">
+            <div class="three wide field">
+                <label>部门</label>
+                <select class="ui selection dropdown" id="depart_id" name="depart_id">
+                    <option value="0">==请选择==</option>
+                    <option value="1">本科生第一支部</option>
+                    <option value="2">本科生第二支部</option>
+                    <option value="3">研究生第一支部</option>
+                    <option value="4">研究生第二支部</option>
+                    <option value="5">研究生第三支部</option>
+                    <option value="6">教工第一支部</option>
+                    <option value="7">教工第二支部</option>
+                    <option value="8">计算机系支部</option>
+                </select>
+            </div>
+            <div class="three wide field">
+                <label>任务分类一</label>
+                <select class="ui selection dropdown" id="task_name_first" name="task_name_first">
+                    <option value="0">==请选择==</option>
+                    <option value="1组织健全">1组织健全</option>
+                    <option value="2制度完善">2制度完善</option>
+                    <option value="3运行规范">3运行规范</option>
+                    <option value="4活动经常">4活动经常</option>
+                    <option value="5档案齐全">5档案齐全</option>
+                    <option value="6作用突出">6作用突出</option>
+                    <option value="7附加项目">7附加项目</option>
+                </select>
+            </div>
+            <div class="three wide field">
+                <label>任务分类二</label>
+                <select class="ui selection dropdown" id="task_name_second" name="task_name_second">
+                    <option value="0">请先选择“任务分类一”</option>
+                </select>
+            </div>
+            <div class="three wide field">
+                <label>任务分类三</label>
+                <select class="ui selection dropdown" id="task_name_third" name="task_name_third">
+                    <option value="0">请先选择“任务分类二”</option>
+                </select>
+            </div>
+        </div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input class="ui positive button" type="submit" value="筛选">
+        <input class="ui negative button" type="reset"
+               onclick=window.location.href=("{{ url_for('ins.photos_list_advice') }}"); value="清空">
+    </form>
+    <div class="ui tall stacked segment">
+        <div class="ui divided items">
+            <div class="item">
+                <div class="content">
+                    <h3>图片</h3>
+                    {% if photos %}
+                        <div class="ui cards">
+                            {% for photo in photos %}
+                                {{ photo_card(photo) }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="ui red disabled button">暂无图片</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if photos %}
+        {{ pagination_widget(pagination, 'ins.photos_list', task_name_first=task_name_first, task_name_second=task_name_second, task_name_third=task_name_third, depart_id=depart_id) }}
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script>
+        // 下拉列表引用自 http://sign.lngqt.com/index.php?m=Home&c=Colleges，暂未使用 semantic-ui dropdown 特性
+        $('#task_name_first').change(function () {
+            var task_name_first = $(this).val();
+            $.ajax({
+                url: "{{ url_for('user.get_task_name_html') }}",
+                type: "post",
+                async: false,
+                data: {
+                    action: 'getseconds',
+                    task_name_first: task_name_first,
+                    csrf_token: "{{ csrf_token() }}"
+                },
+                success: function (data) {
+                    $('#task_name_second').html(data);
+                }
+            });
+        });
+        $('#task_name_second').change(function () {
+            var task_name_second = $(this).val();
+            $.ajax({
+                url: "{{ url_for('user.get_task_name_html') }}",
+                type: "post",
+                async: false,
+                data: {
+                    action: 'getthirds',
+                    task_name_first: $('#task_name_first').val(),
+                    task_name_second: task_name_second,
+                    csrf_token: "{{ csrf_token() }}"
+                },
+                success: function (data) {
+                    $('#task_name_third').html(data);
+                }
+            });
+        });
+    </script>
+{% endblock %}
