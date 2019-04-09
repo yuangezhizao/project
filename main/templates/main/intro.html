@@ -20,6 +20,9 @@
     {{ message_part() }}
     <div class="ui blue message">
         当前筛选条件【
+        {% if depart_id != 0 %}
+            部门：{{ depart_id }}；
+        {% endif %}
         {% if task_name_first != '0' %}
             任务分类一：{{ task_name_first }}；
         {% endif %}
