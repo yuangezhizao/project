@@ -67,7 +67,6 @@ def upload():
 
 
 @user_bp.route('/uploads/<path:filename>')
-@login_required
 def get_image(filename):
     return send_from_directory(current_app.config['UPLOAD_PATH'], filename)
 
