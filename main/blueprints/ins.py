@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app
+from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app, abort
 from flask_login import login_required, current_user
 
 from main.models.photo import Photo, Task, Comment, Advice
@@ -15,6 +15,8 @@ ins_bp = Blueprint('ins', __name__)
 def set_public(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     public_status = request.form.get('public_status')
+    if not public_status:
+        return abort(400)
     photo.public_status = public_status
     flash(f'状态码已设置为：{public_status}', 'info')
     db.session.commit()
@@ -96,6 +98,8 @@ def photos_list_advice():
 def set_advice(advice_id):
     advice = Advice.query.get_or_404(advice_id)
     status = request.form.get('status')
+    if not status:
+        return abort(400)
     advice.status = status
     flash(f'状态码已设置为：{status}', 'info')
     db.session.commit()
