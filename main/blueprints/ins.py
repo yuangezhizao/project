@@ -135,7 +135,12 @@ def advice():
 def advice_list():
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['ADVICE_LIST_PER_PAGE']
-    pagination = Advice.query.order_by(Advice.timestamp.desc()).paginate(page, per_page)
+    if not current_user.can('ADVICE'):
+        depart_id = current_user.depart_id
+        pagination = Advice.query.filter(Advice.depart_id == depart_id).order_by(Advice.timestamp.desc()).paginate(page,
+                                                                                                                   per_page)
+    else:
+        pagination = Advice.query.order_by(Advice.timestamp.desc()).paginate(page, per_page)
     advice_list = pagination.items
     return render_template('ins/advice_list.html', pagination=pagination, advice_list=advice_list)
 
