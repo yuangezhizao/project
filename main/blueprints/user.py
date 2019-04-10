@@ -2,7 +2,6 @@ import os
 
 from flask import render_template, Blueprint, abort, request, flash, redirect, current_app, send_from_directory, url_for
 from flask_login import login_required, current_user
-from werkzeug.utils import secure_filename
 
 from main.models.photo import Photo
 from main.models.task_dict import task_dict
@@ -45,7 +44,8 @@ def upload():
             return redirect(request.url)
         task_name_third = request.form.get('task_name_third')
         if f and allowed_file(f.filename):
-            filename = secure_filename(f.filename)
+            filename = f.filename
+            # filename = secure_filename(f.filename)
             filename = rename_image(filename)
             f.save(os.path.join(current_app.config['UPLOAD_PATH'], filename))
             filename_m = resize_image(f, filename, current_app.config['PHOTO_SIZE']['medium'])
