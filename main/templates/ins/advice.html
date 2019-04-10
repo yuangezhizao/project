@@ -108,10 +108,10 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 {% if advice.status >= 0 %}
                     <input type="hidden" name="status" value="{{ 0 - advice.status }}">
-                    <button type="submit" class="ui negative button">点击完成并关闭评论区</button>
+                    <button type="submit" class="ui negative button">点击完成并关闭评论</button>
                 {% elif advice.status < 0 %}
                     <input type="hidden" name="status" value="{{ 0 - advice.status }}">
-                    <button type="submit" class="ui blue button">点击恢复并开启评论区</button>
+                    <button type="submit" class="ui blue button">点击恢复并开启评论</button>
                 {% endif %}
             </form>
         </div>
