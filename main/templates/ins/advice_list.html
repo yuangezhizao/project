@@ -55,29 +55,57 @@
                 <td>{{ advice.author.name }}
                 </td>
                 <td>
-                    {% if advice.status == 0 %}
-                        未回复
-                    {% elif advice.status == 1 %}
-                        已回复
-                    {% elif advice.status == 2 %}
-                        新回复
+                    {% if current_user.can('ADVICE') %}
+                        {% if advice.status == 0 %}
+                            未回复
+                        {% elif advice.status == 1 %}
+                            对方已回复
+                        {% elif advice.status == 2 %}
+                            自己已回复
+                        {% else %}
+                            已完成
+                        {% endif %}
                     {% else %}
-                        已完成
+                        {% if advice.status == 0 %}
+                            未回复
+                        {% elif advice.status == 1 %}
+                            自己已回复
+                        {% elif advice.status == 2 %}
+                            对方已回复
+                        {% else %}
+                            已完成
+                        {% endif %}
                     {% endif %}
                 </td>
                 <td>
-                    {% if advice.status == 0 %}
-                        <a class="ui green mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
-                           target="_blank">首次回复</a>
-                    {% elif advice.status == 1 %}
-                        <a class="ui blue mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
-                           target="_blank">等待新回复</a>
-                    {% elif advice.status == 2 %}
-                        <a class="ui brown mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
-                           target="_blank">继续回复</a>
+                    {% if current_user.can('ADVICE') %}
+                        {% if advice.status == 0 %}
+                            <a class="ui green mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
+                               target="_blank">首次回复</a>
+                        {% elif advice.status == 1 %}
+                            <a class="ui blue mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
+                               target="_blank">对方已回复</a>
+                        {% elif advice.status == 2 %}
+                            <a class="ui brown mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
+                               target="_blank">自己已回复</a>
+                        {% else %}
+                            <a class="ui black mini button"
+                               href="{{ url_for('ins.show_advice', advice_id=advice.id) }}">已完成</a>
+                        {% endif %}
                     {% else %}
-                        <a class="ui black mini button"
-                           href="{{ url_for('ins.show_advice', advice_id=advice.id) }}">已完成</a>
+                        {% if advice.status == 0 %}
+                            <a class="ui green mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
+                               target="_blank">首次回复</a>
+                        {% elif advice.status == 1 %}
+                            <a class="ui blue mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
+                               target="_blank">自己已回复</a>
+                        {% elif advice.status == 2 %}
+                            <a class="ui brown mini button" href="{{ url_for('ins.show_advice', advice_id=advice.id) }}"
+                               target="_blank">对方已回复</a>
+                        {% else %}
+                            <a class="ui black mini button"
+                               href="{{ url_for('ins.show_advice', advice_id=advice.id) }}">已完成</a>
+                        {% endif %}
                     {% endif %}
                 </td>
             </tr>
