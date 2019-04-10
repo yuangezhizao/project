@@ -164,10 +164,10 @@ def comment():
     if not current_user.can('ADVICE') and advice.comments[-1].author == current_user:
         flash('您已经回复，请等待新回复！', 'negative')
     else:
-        if advice.status == 0:
+        if current_user.can('ADVICE'):
+            advice.status = 2
+        else:
             advice.status = 1
-        elif advice.status == 1:
-            advice.status = 0
         comment = Comment(body=body,
                           advice=advice,
                           author=current_user)
