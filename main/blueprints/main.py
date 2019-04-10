@@ -36,7 +36,7 @@ def intro():
 
 @main_bp.route('/index')
 def index():
-    notice = ''
+    notice = '【190410】开放测试'
     return render_template('main/index.html', notice=notice)
 
 
