@@ -46,6 +46,9 @@
     {{ message_part() }}
     <div class="ui blue message">
         当前筛选条件【
+        {% if not show_set %}
+            [查看已审核数据]
+        {% endif %}
         {% if task_name_first != '0' %}
             任务分类一：{{ task_name_first }}；
         {% endif %}
@@ -87,8 +90,8 @@
             <div class="three wide field">
                 <label>是否查看已审核</label>
                 <select class="ui selection dropdown" id="show_set" name="show_set">
-                    <option value="1" selected="selected">否</option>
-                    <option value="0">是</option>
+                    <option value=0 selected="selected">否</option>
+                    <option value=1>是</option>
                 </select>
             </div>
         </div>
