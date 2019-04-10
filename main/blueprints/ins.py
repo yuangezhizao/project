@@ -30,6 +30,7 @@ def photos_list_set_public():
     task_name_first = request.args.get('task_name_first', '0')
     task_name_second = request.args.get('task_name_second', '0')
     task_name_third = request.args.get('task_name_third', '0')
+    show_set = request.args.get('show_set', '1')
     depart_id = current_user.depart_id
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['PHOTO_PER_PAGE']
@@ -40,6 +41,8 @@ def photos_list_set_public():
         filters.append(Task.name_second == task_name_second)
     if task_name_third != '0':
         filters.append(Task.name_third == task_name_third)
+    if show_set:
+        filters.append(Photo.public_status == 0)
     if filters:
         pagination = Photo.query.join(Task).join(User).filter(*filters).order_by(Photo.timestamp.desc()).paginate(page,
                                                                                                                   per_page)
