@@ -30,7 +30,7 @@
                     <li>{{ photo.task.name_second }}</li>
                     <li>{{ photo.task.name_third }}</li>
                 </ul>
-                <div class="description">{{ photo.description|wordwrap(20, break_long_words=True) }}</div>
+                <div class="description">{{ photo.description | truncate(100) }}</div>
                 {# TODO：截断 #}
             </div>
             <div class="extra content" style="text-align: center;">
