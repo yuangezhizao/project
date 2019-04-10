@@ -71,7 +71,7 @@
             {% endfor %}
             {% if not current_user.can('ADVICE') and advice.comments[-1].author == current_user %}
                 <div class="ui warning message">您已经回复，请等待新回复</div>
-            {% else %}
+            {% elif advice.status > 0 %}
                 <form action="{{ url_for('ins.comment') }}" method="post" class="ui reply form">
                     <div class="field">
                         <div class="ui input">
@@ -83,7 +83,25 @@
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input class="ui positive button" type="submit" value="提交">
                 </form>
+            {% else %}
+                <div class="ui black message">已完成</div>
             {% endif %}
         </div>
     </div>
+    {% if current_user.can('ADVICE') %}
+        <div class="ui tall stacked segment">
+            <h3>操作</h3>
+            <form class="ui inline" method="post"
+                  action="{{ url_for('ins.set_advice', advice_id=advice.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                {% if advice.status > 0 %}
+                    <input type="hidden" name="status" value="-1">
+                    <button type="submit" class="ui negative button">点击完成并关闭评论区</button>
+                {% elif advice.status < 0 %}
+                    <input type="hidden" name="status" value="1">
+                    <button type="submit" class="ui blue button">点击恢复并开启评论区</button>
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
 {% endblock %}
