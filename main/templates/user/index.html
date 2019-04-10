@@ -37,13 +37,13 @@
                                 {{ user.role.name }}
                             </div>
                         {% endif %}
-                        <div class="ui attached yellow segment">
-                            <div class="ui yellow horizontal label">邮箱</div>
-                            <a href="mailto:{{ user.email }}">{{ user.email }}</a>
-                        </div>
                         <div class="ui attached olive segment">
                             <div class="ui olive horizontal label">昵称</div>
                             {{ user.name }}
+                        </div>
+                        <div class="ui attached yellow segment">
+                            <div class="ui yellow horizontal label">邮箱</div>
+                            <a href="mailto:{{ user.email }}">{{ user.email }}</a>
                         </div>
                         <div class="ui attached blue segment">
                             <div class="ui blue horizontal label">所在部门</div>
