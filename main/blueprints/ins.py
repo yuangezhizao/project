@@ -41,7 +41,7 @@ def photos_list_set_public():
         filters.append(Task.name_second == task_name_second)
     if task_name_third != '0':
         filters.append(Task.name_third == task_name_third)
-    if not show_set:
+    if int(show_set) == 0:
         filters.append(Photo.public_status == 0)
     if filters:
         pagination = Photo.query.join(Task).join(User).filter(*filters).order_by(Photo.timestamp.desc()).paginate(page,
