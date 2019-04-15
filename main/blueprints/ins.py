@@ -44,6 +44,10 @@ def photos_list_set_public():
         filters.append(Task.name_third == task_name_third)
     if int(show_set) == 0:
         filters.append(Photo.public_status == 0)
+    if '至' in time_range:
+        begin_time = time_range.split('至')[0][:-1]
+        end_time = time_range.split('至')[1][1:]
+        filters.append(Photo.timestamp.between(begin_time, end_time))
     if filters:
         pagination = Photo.query.join(Task).join(User).filter(*filters).order_by(Photo.timestamp.desc()).paginate(page,
                                                                                                                   per_page)
