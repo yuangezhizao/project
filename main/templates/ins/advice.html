@@ -104,7 +104,7 @@
         <div class="ui tall stacked segment">
             <h3>操作</h3>
             <form class="ui inline" method="post"
-                  action="{{ url_for('ins.set_advice', advice_id=advice.id) }}">
+                  action="{{ url_for('mod.set_advice', advice_id=advice.id) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 {% if advice.status >= 0 %}
                     <input type="hidden" name="status" value="{{ 0 - advice.status }}">

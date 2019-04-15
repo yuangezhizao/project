@@ -11,6 +11,7 @@ from flask_wtf.csrf import CSRFError
 from main.blueprints.auth import auth_bp
 from main.blueprints.ins import ins_bp
 from main.blueprints.main import main_bp
+from main.blueprints.mod import mod_bp
 from main.blueprints.user import user_bp
 from main.models.photo import Task
 from main.models.user import User, Role, Depart
@@ -54,6 +55,7 @@ def register_blueprints(app):
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(user_bp, url_prefix='/user')
     app.register_blueprint(ins_bp, url_prefix='/ins')
+    app.register_blueprint(mod_bp, url_prefix='/mod')
 
 
 def register_errorhandlers(app):

@@ -95,20 +95,6 @@ def photos_list_advice():
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
 
 
-@ins_bp.route('/set-advice/<int:advice_id>', methods=['POST'])
-@login_required
-@permission_required('ADVICE')
-def set_advice(advice_id):
-    advice = Advice.query.get_or_404(advice_id)
-    status = request.form.get('status')
-    if not status:
-        return abort(400)
-    advice.status = status
-    flash(f'状态码已设置为：{status}', 'info')
-    db.session.commit()
-    return redirect(request.referrer)
-
-
 @ins_bp.route('/advice', methods=['POST'])
 @login_required
 @permission_required('ADVICE')
