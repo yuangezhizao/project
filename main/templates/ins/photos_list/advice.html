@@ -155,7 +155,7 @@
     {% if depart_id != 0 and current_user.can('ADVICE') %}
         <div class="ui tall stacked segment">
             <h3 class="ui dividing header">评论</h3>
-            <form action="{{ url_for('ins.advice') }}" method="post" class="ui reply form">
+            <form action="{{ url_for('mod.advice') }}" method="post" class="ui reply form">
                 <div class="field">
                     <label>评论区</label>
                     <div class="ui input">

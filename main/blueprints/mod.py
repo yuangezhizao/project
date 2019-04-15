@@ -6,10 +6,10 @@
     :Site: https://www.yuangezhizao.cn
     :Copyright: © 2019 yuangezhizao <root@yuangezhizao.cn>
 """
-from flask import Blueprint, flash, redirect, request, abort
-from flask_login import login_required
+from flask import Blueprint, flash, redirect, url_for, request, abort
+from flask_login import login_required, current_user
 
-from main.models.photo import Advice
+from main.models.photo import Comment, Advice
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
 
@@ -28,3 +28,26 @@ def set_advice(advice_id):
     flash(f'状态码已设置为：{status}', 'info')
     db.session.commit()
     return redirect(request.referrer)
+
+
+@mod_bp.route('/advice', methods=['POST'])
+@login_required
+@permission_required('ADVICE')
+def advice():
+    body = request.form.get('body')
+    depart_id = request.form.get('depart_id')
+    passed_count = request.form.get('passed_count')
+    url = request.form.get('url')
+    filter = request.form.get('filter')
+    advice = Advice(depart_id=depart_id,
+                    passed_count=passed_count,
+                    url=url,
+                    filter=filter,
+                    author=current_user._get_current_object())
+    comment = Comment(body=body,
+                      advice=advice,
+                      author=current_user._get_current_object())
+    db.session.add(advice, comment)
+    db.session.commit()
+    flash('评论成功！', 'success')
+    return redirect(url_for('ins.photos_list_advice'))

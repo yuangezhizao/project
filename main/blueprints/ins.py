@@ -95,29 +95,6 @@ def photos_list_advice():
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
 
 
-@ins_bp.route('/advice', methods=['POST'])
-@login_required
-@permission_required('ADVICE')
-def advice():
-    body = request.form.get('body')
-    depart_id = request.form.get('depart_id')
-    passed_count = request.form.get('passed_count')
-    url = request.form.get('url')
-    filter = request.form.get('filter')
-    advice = Advice(depart_id=depart_id,
-                    passed_count=passed_count,
-                    url=url,
-                    filter=filter,
-                    author=current_user._get_current_object())
-    comment = Comment(body=body,
-                      advice=advice,
-                      author=current_user._get_current_object())
-    db.session.add(advice, comment)
-    db.session.commit()
-    flash('评论成功！', 'success')
-    return redirect(url_for('ins.photos_list_advice'))
-
-
 @ins_bp.route('/advice_list', methods=['GET', 'POST'])
 @login_required
 @permission_required('COMMENT')
