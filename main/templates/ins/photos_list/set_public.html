@@ -51,8 +51,11 @@
     {{ message_part() }}
     <div class="ui blue message">
         当前筛选条件【
-        {% if not show_set %}
+        {% if not show_set | int == 0 %}
             [查看已审核数据]
+        {% endif %}
+        {% if time_range %}
+            [{{ time_range }}]
         {% endif %}
         {% if task_name_first != '0' %}
             任务分类一：{{ task_name_first }}；

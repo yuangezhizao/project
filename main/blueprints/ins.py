@@ -31,6 +31,7 @@ def photos_list_set_public():
     task_name_second = request.args.get('task_name_second', '0')
     task_name_third = request.args.get('task_name_third', '0')
     show_set = request.args.get('show_set', 0)
+    time_range = request.args.get('time_range')
     depart_id = current_user.depart_id
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['PHOTO_PER_PAGE']
@@ -58,8 +59,8 @@ def photos_list_set_public():
         not_passed_count = Photo.query.filter_by(public_status=-1).count()
     photos = pagination.items
     return render_template('ins/photos_list/set_public.html', all_count=all_count, wait_count=wait_count,
-                           passed_count=passed_count, not_passed_count=not_passed_count,
-                           task_name_first=task_name_first, task_name_second=task_name_second,
+                           passed_count=passed_count, not_passed_count=not_passed_count, show_set=show_set,
+                           time_range=time_range, task_name_first=task_name_first, task_name_second=task_name_second,
                            task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
 
 
