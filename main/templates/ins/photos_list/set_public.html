@@ -1,6 +1,11 @@
 {% extends "/base.html" %}
 {% from 'macros.html' import photo_card, message_part, pagination_widget with context %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/css/flatpickr.min.css') }}">
+{% endblock %}
+
 {% block title %}图片列表{% endblock %}
 
 {% block nav %}
@@ -61,7 +66,7 @@
         】
     </div>
     <form action="" class="ui form" method="get">
-        <div class="four fields">
+        <div class="five fields">
             <div class="three wide field">
                 <label>任务分类一</label>
                 <select class="ui selection dropdown" id="task_name_first" name="task_name_first">
@@ -93,6 +98,11 @@
                     <option value=0 selected="selected">否</option>
                     <option value=1>是</option>
                 </select>
+            </div>
+            <div class="three wide field">
+                <label>日期范围</label>
+                <input class="flatpickr flatpickr-input time_range" type="text" placeholder="选择日期范围" data-id="range"
+                       readonly="readonly" name="time_range">
             </div>
         </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -175,6 +185,8 @@
 
 {% block script %}
     {{ super() }}
+    <script src="{{ url_for('static', filename='static/js/flatpickr.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='static/js/zh.js') }}"></script>
     <script>
         // 下拉列表引用自 http://sign.lngqt.com/index.php?m=Home&c=Colleges，暂未使用 semantic-ui dropdown 特性
         $('#task_name_first').change(function () {
@@ -210,5 +222,14 @@
                 }
             });
         });
+        flatpickr.l10ns.default.firstDayOfWeek = 7;
+        time_range = flatpickr('.time_range', {
+                mode: "range",
+                dateFormat: 'Y-m-d',
+                static: true,
+                disableMobile: true,
+                locale: 'zh',
+            }
+        );
     </script>
 {% endblock %}
