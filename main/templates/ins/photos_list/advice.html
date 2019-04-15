@@ -1,6 +1,11 @@
 {% extends "/base.html" %}
 {% from 'macros.html' import photo_card, message_part, pagination_widget with context %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/css/flatpickr.min.css') }}">
+{% endblock %}
+
 {% block title %}图片列表{% endblock %}
 
 {% block nav %}
@@ -20,6 +25,9 @@
     {{ message_part() }}
     <div class="ui blue message">
         当前筛选条件【
+        {% if time_range %}
+            [{{ time_range }}]
+        {% endif %}
         {% if depart_id != 0 %}
             部门：{{ depart_id }}；
         {% endif %}
@@ -35,7 +43,7 @@
         】
     </div>
     <form action="" class="ui form" method="get">
-        <div class="four fields">
+        <div class="five fields">
             <div class="three wide field">
                 <label>部门</label>
                 <select class="ui selection dropdown" id="depart_id" name="depart_id">
@@ -74,6 +82,11 @@
                 <select class="ui selection dropdown" id="task_name_third" name="task_name_third">
                     <option value="0">请先选择“任务分类二”</option>
                 </select>
+            </div>
+            <div class="three wide field">
+                <label>日期范围</label>
+                <input class="flatpickr flatpickr-input time_range" type="text" placeholder="选择日期范围" data-id="range"
+                       readonly="readonly" name="time_range">
             </div>
         </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -180,6 +193,8 @@
 {% block script %}
     {{ super() }}
     <script src="{{ url_for('static', filename='static/js/jquery.tablesorter.combined.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='static/js/flatpickr.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='static/js/zh.js') }}"></script>
     <script>
         $(document).ready(function () {
             $("#photos_list_table").tablesorter({sortList: [[0, 0]]});
@@ -218,5 +233,14 @@
                 }
             });
         });
+        flatpickr.l10ns.default.firstDayOfWeek = 7;
+        time_range = flatpickr('.time_range', {
+                mode: "range",
+                dateFormat: 'Y-m-d',
+                static: true,
+                disableMobile: true,
+                locale: 'zh',
+            }
+        );
     </script>
 {% endblock %}
