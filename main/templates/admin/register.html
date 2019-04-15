@@ -26,14 +26,19 @@
                             <div class="default text">部门</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" data-value="本科生第一支部">本科生第一支部</div>
-                                <div class="item" data-value="本科生第二支部">本科生第二支部</div>
-                                <div class="item" data-value="研究生第一支部">研究生第一支部</div>
-                                <div class="item" data-value="研究生第二支部">研究生第二支部</div>
-                                <div class="item" data-value="研究生第三支部">研究生第三支部</div>
-                                <div class="item" data-value="教工第一支部">教工第一支部</div>
-                                <div class="item" data-value="教工第二支部">教工第二支部</div>
-                                <div class="item" data-value="计算机系支部">计算机系支部</div>
+                                {% if current_user.can('ADMINISTER') %}
+                                    <div class="item" data-value="本科生第一支部">本科生第一支部</div>
+                                    <div class="item" data-value="本科生第二支部">本科生第二支部</div>
+                                    <div class="item" data-value="研究生第一支部">研究生第一支部</div>
+                                    <div class="item" data-value="研究生第二支部">研究生第二支部</div>
+                                    <div class="item" data-value="研究生第三支部">研究生第三支部</div>
+                                    <div class="item" data-value="教工第一支部">教工第一支部</div>
+                                    <div class="item" data-value="教工第二支部">教工第二支部</div>
+                                    <div class="item" data-value="计算机系支部">计算机系支部</div>
+                                {% else %}
+                                    <div class="item"
+                                         data-value="{{ current_user.depart.name }}">{{ current_user.depart.name }}</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -45,10 +50,12 @@
                             <div class="default text">角色</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" data-value="User">User</div>
-                                <div class="item" data-value="Inspector">Inspector</div>
-                                <div class="item" data-value="Moderator">Moderator</div>
-                                <div class="item" data-value="Administrator">Administrator</div>
+                                <div class="item" data-value="User">普通用户</div>
+                                <div class="item" data-value="Inspector">设置公开审核者</div>
+                                {% if current_user.can('ADMINISTER') %}
+                                    <div class="item" data-value="Moderator">全局评论审核者</div>
+                                    <div class="item" data-value="Administrator">超级管理员</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
