@@ -15,6 +15,7 @@ flask-migrate = "*"
 pillow = "*"
 gitpython = "*"
 pymysql = "*"
+Jinja2 = ">=2.10.1"
 
 [dev-packages]
 
