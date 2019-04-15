@@ -71,7 +71,7 @@
             <h3>管理</h3>
             <a href="{{ url_for('user.upload') }}" class="ui black button" target='_blank'>素材上传</a>
             {% if current_user.can('RIGISTER') %}
-                <a href="{{ url_for('auth.register') }}" class="ui green button" target='_blank'>注册新用户</a>
+                <a href="{{ url_for('admin.register') }}" class="ui green button" target='_blank'>注册新用户</a>
             {% endif %}
             {% if current_user.can('SET_PUBLIC') %}
                 <a href="{{ url_for('ins.photos_list_set_public') }}" class="ui blue button" target='_blank'>设置公开权限</a>

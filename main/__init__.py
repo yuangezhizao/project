@@ -8,6 +8,7 @@ from flask_login import current_user
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFError
 
+from main.blueprints.admin import admin_bp
 from main.blueprints.auth import auth_bp
 from main.blueprints.ins import ins_bp
 from main.blueprints.main import main_bp
@@ -56,6 +57,7 @@ def register_blueprints(app):
     app.register_blueprint(user_bp, url_prefix='/user')
     app.register_blueprint(ins_bp, url_prefix='/ins')
     app.register_blueprint(mod_bp, url_prefix='/mod')
+    app.register_blueprint(admin_bp, url_prefix='/admin')
 
 
 def register_errorhandlers(app):
