@@ -1,6 +1,11 @@
 {% extends "/base.html" %}
 {% from 'macros.html' import photo_card, message_part, pagination_widget with context %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/css/flatpickr.min.css') }}">
+{% endblock %}
+
 {% block title %}图片展示{% endblock %}
 
 {% block nav %}
@@ -20,6 +25,9 @@
     {{ message_part() }}
     <div class="ui blue message">
         当前筛选条件【
+        {% if time_range %}
+            [{{ time_range }}]
+        {% endif %}
         {% if depart_id != 0 %}
             部门：{{ depart_id }}；
         {% endif %}
@@ -35,7 +43,7 @@
         】
     </div>
     <form action="" class="ui form" method="get">
-        <div class="four fields">
+        <div class="five fields">
             <div class="three wide field">
                 <label>部门</label>
                 <select class="ui selection dropdown" id="depart_id" name="depart_id">
@@ -75,6 +83,11 @@
                     <option value="0">请先选择“任务分类二”</option>
                 </select>
             </div>
+            <div class="three wide field">
+                <label>日期范围</label>
+                <input class="flatpickr flatpickr-input time_range" type="text" placeholder="选择日期范围" data-id="range"
+                       readonly="readonly" name="time_range">
+            </div>
         </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <input class="ui positive button" type="submit" value="筛选">
@@ -106,6 +119,8 @@
 
 {% block script %}
     {{ super() }}
+    <script src="{{ url_for('static', filename='static/js/flatpickr.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='static/js/zh.js') }}"></script>
     <script>
         // 下拉列表引用自 http://sign.lngqt.com/index.php?m=Home&c=Colleges，暂未使用 semantic-ui dropdown 特性
         $('#task_name_first').change(function () {
@@ -141,5 +156,14 @@
                 }
             });
         });
+        flatpickr.l10ns.default.firstDayOfWeek = 7;
+        time_range = flatpickr('.time_range', {
+                mode: "range",
+                dateFormat: 'Y-m-d',
+                static: true,
+                disableMobile: true,
+                locale: 'zh',
+            }
+        );
     </script>
 {% endblock %}

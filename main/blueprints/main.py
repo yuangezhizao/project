@@ -13,6 +13,7 @@ def intro():
     task_name_second = request.args.get('task_name_second', '0')
     task_name_third = request.args.get('task_name_third', '0')
     depart_id = request.args.get('depart_id', 0, type=int)
+    time_range = request.args.get('time_range')
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['PHOTO_PER_PAGE']
     filters = [Photo.public_status == 1, ]
@@ -24,14 +25,19 @@ def intro():
         filters.append(Task.name_third == task_name_third)
     if depart_id:
         filters.append(User.depart_id == depart_id)
+    if time_range and '至' in time_range:
+        begin_time = time_range.split('至')[0][:-1]
+        end_time = time_range.split('至')[1][1:]
+        filters.append(Photo.timestamp.between(begin_time, end_time))
     if filters:
         pagination = Photo.query.join(Task).join(User).filter(*filters).order_by(Photo.timestamp.desc()).paginate(page,
                                                                                                                   per_page)
     else:
         pagination = Photo.query.order_by(Photo.timestamp.desc()).paginate(page, per_page)
     photos = pagination.items
-    return render_template('main/intro.html', task_name_first=task_name_first, task_name_second=task_name_second,
-                           task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
+    return render_template('main/intro.html', time_range=time_range, task_name_first=task_name_first,
+                           task_name_second=task_name_second, task_name_third=task_name_third, depart_id=depart_id,
+                           pagination=pagination, photos=photos)
 
 
 @main_bp.route('/index')
