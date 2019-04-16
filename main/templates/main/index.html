@@ -19,6 +19,23 @@
             </div>
             <a href="{{ url_for('user.upload') }}" class="ui attached button"><i class="image icon"></i></a>
         </div>
+        <div class="green card">
+            <div class="content">
+                <div class="header">注册用户</div>
+                <div class="description">注册新用户</div>
+            </div>
+            <a href="{{ url_for('admin.register') }}" class="ui attached button"><i
+                    class="comments icon"></i></a>
+        </div>
+        <div class="brown card">
+            <div class="content">
+                <div class="header">管理用户</div>
+                <div class="description">查看所有用户</div>
+                <div class="ui top right attached pink label">New</div>
+            </div>
+            <a href="{{ url_for('admin.users_list') }}" class="ui attached button"><i
+                    class="comments icon"></i></a>
+        </div>
         <div class="blue card">
             <div class="content">
                 <div class="header">设置公开</div>
@@ -39,7 +56,6 @@
             <div class="content">
                 <div class="header">查看评论</div>
                 <div class="description">查看评论意见</div>
-                <div class="ui top right attached pink label">New</div>
             </div>
             <a href="{{ url_for('ins.advice_list') }}" class="ui attached button"><i
                     class="comments icon"></i></a>
