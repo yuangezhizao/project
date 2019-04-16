@@ -1,0 +1,98 @@
+{% extends "/base.html" %}
+{% from 'macros.html' import message_part, pagination_widget with context %}
+
+{% block title %}用户列表{% endblock %}
+
+{% block nav %}
+    <a class="active item"><i class="comments icon"></i>用户列表</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
+{% block content %}
+    {% block wide %}
+        <div class="sixteen wide column">
+    {% endblock %}
+    <div class="ui dividing brown header">
+        <div class="content">
+            <h2>
+                {% if not current_user.can('ADMINISTER') %}
+                    用户列表【{{ current_user.depart.name }}】
+                {% else %}
+                    用户列表【全部】
+                {% endif %}
+            </h2>
+        </div>
+    </div>
+    {{ message_part() }}
+    <table id="users_list_table" class="tablesorter ui sortable unstackable celled striped brown compact table">
+        <thead>
+        <tr class="positive">
+            <th>ID</th>
+            <th>用户名</th>
+            <th>昵称</th>
+            <th>角色</th>
+            <th>邮箱</th>
+            <th>所在部门</th>
+            <th>图片上传个数</th>
+            <th>注册时间</th>
+            <th>上次活跃</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users_list %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('user.index', user_id=user.id) }}">{{ user.id }}</a>
+                </td>
+                <td>
+                    {{ user.username }}
+                </td>
+                <td>
+                    {{ user.name }}
+                </td>
+                <td>
+                    {{ user.role.name }}
+                </td>
+                <td>
+                    <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                </td>
+                <td>
+                    {{ user.depart.name }}
+                </td>
+                <td>
+                    {{ user.photos|length }}
+                </td>
+                <td>
+                    {{ moment(user.member_since).format('YYYY MMMM Do ，h:mm:ss a') }}
+                </td>
+                <td>
+                    {{ moment(user.last_seen).format('YYYY MMMM Do ，h:mm:ss a') }}
+                </td>
+                <td>
+                    <form style="text-align: center;" class="ui inline" method="post"
+                          action="{{ url_for('admin.delete_user', user_id=user.id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="ui negative mini {% if current_user == user %}disabled{% endif %}button">删除
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if users_list %}
+        {{ pagination_widget(pagination, 'admin.users_list', page=page) }}
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='static/js/jquery.tablesorter.combined.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+                $("#users_list_table").tablesorter({sortList: [[0, 1]]});
+            }
+        );
+    </script>
+{% endblock %}

@@ -1,5 +1,5 @@
-from flask import render_template, flash, redirect, Blueprint, request
-from flask_login import login_required
+from flask import render_template, flash, redirect, Blueprint, request, current_app
+from flask_login import login_required, current_user
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -29,3 +29,37 @@ def register():
         flash(f'新用户注册成功，邮箱：{email}，用户名：{username}，昵称：{name}', 'info')
         return redirect(request.url)
     return render_template('admin/register.html')
+
+
+@admin_bp.route('/users_list', methods=['GET'])
+@login_required
+@permission_required('RIGISTER')
+def users_list():
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['USERS_LIST_PER_PAGE']
+    if not current_user.can('ADMINISTER'):
+        depart_id = current_user.depart_id
+        pagination = User.query.filter(User.depart_id == depart_id).order_by(User.member_since.desc()).paginate(page,
+                                                                                                                per_page)
+    else:
+        pagination = User.query.order_by(User.member_since.desc()).paginate(page,
+                                                                            per_page)
+    users_list = pagination.items
+    return render_template('admin/users_list.html', pagination=pagination, users_list=users_list)
+
+
+@admin_bp.route('/delete_user/<int:user_id>', methods=['POST'])
+@login_required
+@permission_required('RIGISTER')
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if user == current_user:
+        flash(f'不能删除自己', 'info')
+        return redirect(request.referrer)
+    if (not current_user.can('ADMINISTER')) and current_user.depart_id != user.depart_id:
+        flash(f'不能删除非本部门用户', 'info')
+        return redirect(request.referrer)
+    db.session.delete(user)
+    db.session.commit()
+    flash(f'已删除 ID 为 {user_id} 的用户', 'info')
+    return redirect(request.referrer)
