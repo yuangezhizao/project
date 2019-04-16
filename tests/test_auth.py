@@ -40,7 +40,7 @@ class AuthTestCase(BaseTestCase):
         username = 'test'
         name = 'test'
         password = 'test'
-        response = self.client.post(url_for('auth.register'), data=dict(
+        response = self.client.post(url_for('admin.register'), data=dict(
             depart_name=depart_name,
             role_name=role_name,
             email=email,
