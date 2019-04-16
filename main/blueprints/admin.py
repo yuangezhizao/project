@@ -42,8 +42,12 @@ def users_list():
         pagination = User.query.filter(User.depart_id == depart_id).order_by(User.member_since.desc()).paginate(page,
                                                                                                                 per_page)
     else:
-        pagination = User.query.order_by(User.member_since.desc()).paginate(page,
-                                                                            per_page)
+        depart_id = request.args.get('depart_id', 1, type=int)
+        filters = []
+        if depart_id != 0:
+            filters.append(User.depart_id == depart_id)
+        pagination = User.query.filter(*filters).order_by(User.member_since.desc()).paginate(page,
+                                                                                             per_page)
     users_list = pagination.items
     return render_template('admin/users_list.html', pagination=pagination, users_list=users_list)
 
