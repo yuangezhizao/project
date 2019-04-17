@@ -97,7 +97,8 @@
                     <form style="text-align: center;" class="ui inline" method="post"
                           action="{{ url_for('admin.delete_user', user_id=user.id) }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button class="ui negative mini {% if current_user == user %}disabled{% endif %} button">删除
+                        <button onclick="return verify({{ user.id }})"
+                                class="ui negative mini {% if current_user == user %}disabled{% endif %} button">删除
                         </button>
                     </form>
                 </td>
@@ -118,5 +119,11 @@
                 $("#users_list_table").tablesorter({sortList: [[0, 1]]});
             }
         );
+
+        function verify(id) {
+            if (!confirm(_t("确认删除 ID 为 " + id + " 的用户吗？")))
+                return false;
+            createUpdateNotice(_t("正在删除"), "00F")
+        }
     </script>
 {% endblock %}
