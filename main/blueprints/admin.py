@@ -58,10 +58,13 @@ def users_list():
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
     if user == current_user:
-        flash(f'不能删除自己', 'info')
+        flash(f'不能删除自己', 'negative')
+        return redirect(request.referrer)
+    if user.can('ADMINISTER'):
+        flash(f'不能删除超级管理员', 'negative')
         return redirect(request.referrer)
     if (not current_user.can('ADMINISTER')) and current_user.depart_id != user.depart_id:
-        flash(f'不能删除非本部门用户', 'info')
+        flash(f'不能删除非本部门用户', 'negative')
         return redirect(request.referrer)
     db.session.delete(user)
     db.session.commit()
