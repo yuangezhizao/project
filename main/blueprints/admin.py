@@ -63,6 +63,9 @@ def delete_user(user_id):
     if user.can('ADMINISTER'):
         flash(f'不能删除超级管理员', 'negative')
         return redirect(request.referrer)
+    if user.can('ADVICE'):
+        flash(f'不能删除全局评论者', 'negative')
+        return redirect(request.referrer)
     if (not current_user.can('ADMINISTER')) and current_user.depart_id != user.depart_id:
         flash(f'不能删除非本部门用户', 'negative')
         return redirect(request.referrer)

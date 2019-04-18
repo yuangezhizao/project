@@ -98,7 +98,7 @@
                           action="{{ url_for('admin.delete_user', user_id=user.id) }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <button onclick="return verify({{ user.id }})"
-                                class="ui negative mini {% if (current_user == user) or user.can('ADMINISTER') %}disabled{% endif %} button">
+                                class="ui negative mini {% if (current_user == user) or user.can('ADMINISTER') or user.can('ADVICE') %}disabled{% endif %} button">
                             删除
                         </button>
                     </form>
