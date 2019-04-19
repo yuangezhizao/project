@@ -16,13 +16,17 @@
         <div class="content">
             <h2>
                 {% if not current_user.can('ADMINISTER') %}
-                    用户列表【{{ current_user.depart.name }}】
+                    【{{ current_user.depart.name }}】用户列表【{{ users_list | length }}】
                 {% else %}
-                    用户列表【全部】
+                    【全部】用户列表【{{ users_list | length }}】
                 {% endif %}
             </h2>
         </div>
     </div>
+    <div>
+        <a href="{{ url_for('admin.register') }}" class="ui green button" target='_blank'>注册新用户</a>
+    </div>
+    <div class="ui divider"></div>
     {% if current_user.can('ADMINISTER') %}
         <form action="" class="ui form" method="get">
             <div class="one fields">
