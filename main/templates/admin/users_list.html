@@ -12,7 +12,7 @@
     {% block wide %}
         <div class="sixteen wide column">
     {% endblock %}
-    <div class="ui dividing brown header">
+    <div class="ui dividing teal header">
         <div class="content">
             <h2>
                 {% if not current_user.can('ADMINISTER') %}
@@ -48,7 +48,7 @@
         </form>
     {% endif %}
     {{ message_part() }}
-    <table id="users_list_table" class="tablesorter ui sortable unstackable celled striped brown compact table">
+    <table id="users_list_table" class="tablesorter ui sortable unstackable celled striped teal compact table">
         <thead>
         <tr class="positive">
             <th>ID</th>
