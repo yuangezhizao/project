@@ -1,0 +1,74 @@
+{% extends "/base.html" %}
+{% from 'macros.html' import message_part, pagination_widget with context %}
+
+{% block title %}部门列表{% endblock %}
+
+{% block nav %}
+    <a class="active item"><i class="building icon"></i>部门列表</a>
+    <a class="item" href="{{ url_for('main.index') }}"><i class="arrow left icon"></i>返回首页</a>
+{% endblock %}
+
+{% block content %}
+    {% block wide %}
+        <div class="sixteen wide column">
+    {% endblock %}
+    <div class="ui dividing violet header">
+        <div class="content">
+            <h2>
+                部门列表【{{ departs_list | length }}】
+            </h2>
+        </div>
+    </div>
+    {{ message_part() }}
+    <table id="departs_list_table" class="tablesorter ui sortable unstackable celled striped violet compact table">
+        <thead>
+        <tr class="positive">
+            <th>ID</th>
+            <th>部门名</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for depart in departs_list %}
+            <tr>
+                <td>
+                    {{ depart.id }}
+                </td>
+                <td>
+                    {{ depart.name }}
+                </td>
+                <td>
+                    <form style="text-align: center;" class="ui inline" method="post"
+                          action="{{ url_for('admin.delete_depart', depart_id=depart.id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button onclick="return verify({{ depart.id }})"
+                                class="ui negative mini button">
+                            删除
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if departs_list %}
+        {{ pagination_widget(pagination, 'admin.departs_list', page=page) }}
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='static/js/jquery.tablesorter.combined.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+                $("#departs_list_table").tablesorter({sortList: [[0, 0]]});
+            }
+        );
+
+        function verify(id) {
+            if (!confirm(_t("确认删除 ID 为 " + id + " 的部门吗？")))
+                return false;
+            createUpdateNotice(_t("正在删除"), "00F")
+        }
+    </script>
+{% endblock %}

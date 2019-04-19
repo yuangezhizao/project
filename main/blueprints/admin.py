@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 admin_bp = Blueprint('admin', __name__)
 
-from main.models.user import User
+from main.models.user import User, Depart
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
 
@@ -31,7 +31,7 @@ def register():
     return render_template('admin/register.html')
 
 
-@admin_bp.route('/users_list', methods=['GET'])
+@admin_bp.route('/users_list')
 @login_required
 @permission_required('RIGISTER')
 def users_list():
@@ -50,6 +50,17 @@ def users_list():
                                                                                              per_page)
     users_list = pagination.items
     return render_template('admin/users_list.html', pagination=pagination, users_list=users_list)
+
+
+@admin_bp.route('/departs_list')
+@login_required
+@permission_required('ADMINISTER')
+def departs_list():
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['DEPARTS_LIST_PER_PAGE']
+    pagination = Depart.query.paginate(page, per_page)
+    departs_list = pagination.items
+    return render_template('admin/departs_list.html', pagination=pagination, departs_list=departs_list)
 
 
 @admin_bp.route('/delete_user/<int:user_id>', methods=['POST'])
@@ -73,3 +84,10 @@ def delete_user(user_id):
     db.session.commit()
     flash(f'已删除 ID 为 {user_id} 的用户', 'info')
     return redirect(request.referrer)
+
+
+@admin_bp.route('/delete_depart/<int:depart_id>', methods=['POST'])
+@login_required
+@permission_required('ADMINISTER')
+def delete_depart(depart_id):
+    return 'mock'

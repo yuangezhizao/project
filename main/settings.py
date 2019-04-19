@@ -45,6 +45,7 @@ class BaseConfig:
     PHOTO_PER_PAGE = 8
     ADVICE_LIST_PER_PAGE = 20
     USERS_LIST_PER_PAGE = 20
+    DEPARTS_LIST_PER_PAGE = 20
 
 
 class DevelopmentConfig(BaseConfig):
