@@ -28,7 +28,9 @@ def register():
         db.session.commit()
         flash(f'新用户注册成功，邮箱：{email}，用户名：{username}，昵称：{name}', 'info')
         return redirect(request.url)
-    return render_template('admin/register.html')
+    departs_list = Depart.query.all()
+    # TODO：这咋分页？
+    return render_template('admin/register.html', departs_list=departs_list)
 
 
 @admin_bp.route('/users_list')

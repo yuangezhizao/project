@@ -27,14 +27,9 @@
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 {% if current_user.can('ADMINISTER') %}
-                                    <div class="item" data-value="本科生第一支部">本科生第一支部</div>
-                                    <div class="item" data-value="本科生第二支部">本科生第二支部</div>
-                                    <div class="item" data-value="研究生第一支部">研究生第一支部</div>
-                                    <div class="item" data-value="研究生第二支部">研究生第二支部</div>
-                                    <div class="item" data-value="研究生第三支部">研究生第三支部</div>
-                                    <div class="item" data-value="教工第一支部">教工第一支部</div>
-                                    <div class="item" data-value="教工第二支部">教工第二支部</div>
-                                    <div class="item" data-value="计算机系支部">计算机系支部</div>
+                                    {% for depart in departs_list %}
+                                        <div class="item" data-value="{{ depart.name }}">{{ depart.name }}</div>
+                                    {% endfor %}
                                 {% else %}
                                     <div class="item"
                                          data-value="{{ current_user.depart.name }}">{{ current_user.depart.name }}</div>
