@@ -100,3 +100,15 @@ def delete_depart(depart_id):
     db.session.commit()
     flash(f'已删除 ID 为 {depart_id} 的部门', 'info')
     return redirect(request.referrer)
+
+
+@admin_bp.route('/add_depart', methods=['POST'])
+@login_required
+@permission_required('ADMINISTER')
+def add_depart():
+    depart_name = request.form.get('depart_name')
+    depart = Depart(name=depart_name)
+    db.session.add(depart)
+    db.session.commit()
+    flash(f'新部门注册成功，名称：{depart}', 'info')
+    return redirect(request.referrer)

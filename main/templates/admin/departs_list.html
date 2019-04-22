@@ -19,6 +19,21 @@
             </h2>
         </div>
     </div>
+    <form class="ui large form" action="{{ url_for('admin.add_depart') }}" method="POST">
+        <div class="ui stacked segment">
+            <div class="field">
+                <label>部门</label>
+                <div class="ui left icon input">
+                    <input class="ui input" type="text" id="add_depart_name" name="depart_name" placeholder="请输入部门名称">
+                    <i class="address card icon"></i>
+                </div>
+            </div>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="ui error message"></div>
+            <input class="ui mini green submit button" onclick="return pre_add_depart()" type="submit" value="增加">
+        </div>
+    </form>
+    <div class="ui divider"></div>
     {{ message_part() }}
     <table id="departs_list_table" class="tablesorter ui sortable unstackable celled striped violet compact table">
         <thead>
@@ -69,6 +84,13 @@
             if (!confirm(_t("确认删除 ID 为 " + id + " 的部门吗？")))
                 return false;
             createUpdateNotice(_t("正在删除"), "00F")
+        }
+
+        function pre_add_depart() {
+            add_depart_name = $("#add_depart_name").val();
+            if (!confirm(_t("确认增加名称为 " + add_depart_name + " 的部门吗？")))
+                return false;
+            createUpdateNotice(_t("正在增加"), "00F")
         }
     </script>
 {% endblock %}
