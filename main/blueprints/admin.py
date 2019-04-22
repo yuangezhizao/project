@@ -90,4 +90,8 @@ def delete_user(user_id):
 @login_required
 @permission_required('ADMINISTER')
 def delete_depart(depart_id):
-    return 'mock'
+    depart = Depart.query.get_or_404(depart_id)
+    db.session.delete(depart)
+    db.session.commit()
+    flash(f'已删除 ID 为 {depart_id} 的部门', 'info')
+    return redirect(request.referrer)
