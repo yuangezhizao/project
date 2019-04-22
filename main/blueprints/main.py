@@ -2,7 +2,7 @@ import git
 from flask import Blueprint, render_template, current_app, request
 
 from main.models.photo import Photo, Task
-from main.models.user import User
+from main.models.user import User, Depart
 
 main_bp = Blueprint('main', __name__)
 
@@ -35,9 +35,11 @@ def intro():
     else:
         pagination = Photo.query.order_by(Photo.timestamp.desc()).paginate(page, per_page)
     photos = pagination.items
+    departs_list = Depart.query.all()
+    # TODO：这咋分页？
     return render_template('main/intro.html', time_range=time_range, task_name_first=task_name_first,
                            task_name_second=task_name_second, task_name_third=task_name_third, depart_id=depart_id,
-                           pagination=pagination, photos=photos)
+                           pagination=pagination, photos=photos, departs_list=departs_list)
 
 
 @main_bp.route('/index')
