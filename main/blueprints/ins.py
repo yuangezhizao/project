@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, url_for, render_template, request,
 from flask_login import login_required, current_user
 
 from main.models.photo import Photo, Task, Comment, Advice
-from main.models.user import User
+from main.models.user import User, Depart
 from main.plugins.decorators import permission_required
 from main.plugins.extensions import db
 
@@ -100,9 +100,12 @@ def photos_list_advice():
         pagination = Photo.query.order_by(Photo.timestamp.desc()).paginate(page, per_page)
         passed_count = Photo.query.filter_by(public_status=1).count()
     photos = pagination.items
+    departs_list = Depart.query.all()
+    # TODO：这咋分页？
     return render_template('ins/photos_list/advice.html', passed_count=passed_count, time_range=time_range,
                            task_name_first=task_name_first, task_name_second=task_name_second,
-                           task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos)
+                           task_name_third=task_name_third, depart_id=depart_id, pagination=pagination, photos=photos,
+                           departs_list=departs_list)
 
 
 @ins_bp.route('/advice_list', methods=['GET', 'POST'])
