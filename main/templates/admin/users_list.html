@@ -34,14 +34,9 @@
                     <label>部门</label>
                     <select class="ui selection dropdown" id="depart_id" name="depart_id">
                         <option value=0>==请选择==</option>
-                        <option value=1>本科生第一支部</option>
-                        <option value=2>本科生第二支部</option>
-                        <option value=3>研究生第一支部</option>
-                        <option value=4>研究生第二支部</option>
-                        <option value=5>研究生第三支部</option>
-                        <option value=6>教工第一支部</option>
-                        <option value=7>教工第二支部</option>
-                        <option value=8>计算机系支部</option>
+                        {% for depart in departs_list %}
+                            <option value={{ depart.id }}>{{ depart.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

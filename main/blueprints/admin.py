@@ -49,7 +49,10 @@ def users_list():
         pagination = User.query.filter(*filters).order_by(User.member_since.desc()).paginate(page,
                                                                                              per_page)
     users_list = pagination.items
-    return render_template('admin/users_list.html', pagination=pagination, users_list=users_list)
+    departs_list = Depart.query.all()
+    # TODO：这咋分页？
+    return render_template('admin/users_list.html', pagination=pagination, users_list=users_list,
+                           departs_list=departs_list)
 
 
 @admin_bp.route('/departs_list')
