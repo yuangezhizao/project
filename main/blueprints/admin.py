@@ -112,3 +112,17 @@ def add_depart():
     db.session.commit()
     flash(f'新部门注册成功，名称：{depart}', 'info')
     return redirect(request.referrer)
+
+
+@admin_bp.route('/edit_depart', methods=['POST'])
+@login_required
+@permission_required('ADMINISTER')
+def edit_depart():
+    depart_id = request.form.get('depart_id')
+    depart_name = request.form.get('depart_name')
+    depart = Depart.query.get_or_404(depart_id)
+    depart.name = depart_name
+    db.session.add(depart)
+    db.session.commit()
+    flash(f'修改成功，新部门名称：{depart}', 'info')
+    return redirect(request.referrer)

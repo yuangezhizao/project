@@ -50,7 +50,17 @@
                     {{ depart.id }}
                 </td>
                 <td>
-                    {{ depart.name }}
+
+                    <form style="text-align: center;" class="ui inline" method="post"
+                          action="{{ url_for('admin.edit_depart', depart_id=depart.id) }}">
+                        <input id="edit_depart_name" name="depart_name" value="{{ depart.name }}">
+                        <input type="hidden" name="depart_id" value="{{ depart.id }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button onclick="return pre_edit_depart()"
+                                class="ui positive mini button">
+                            修改
+                        </button>
+                    </form>
                 </td>
                 <td>
                     <form style="text-align: center;" class="ui inline" method="post"
@@ -91,6 +101,14 @@
             if (!confirm(_t("确认增加名称为 " + add_depart_name + " 的部门吗？")))
                 return false;
             createUpdateNotice(_t("正在增加"), "00F")
+        }
+
+        function pre_edit_depart() {
+            // var new_depart_name = prompt("请输入新部门名称", "");
+            edit_depart_name = $("#edit_depart_name").val();
+            if (!confirm(_t("确认新部门名称修改为 " + edit_depart_name + " 吗？")))
+                return false;
+            createUpdateNotice(_t("正在修改"), "00F")
         }
     </script>
 {% endblock %}
