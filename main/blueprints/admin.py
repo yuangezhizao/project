@@ -44,7 +44,7 @@ def users_list():
         pagination = User.query.filter(User.depart_id == depart_id).order_by(User.member_since.desc()).paginate(page,
                                                                                                                 per_page)
     else:
-        depart_id = request.args.get('depart_id', 1, type=int)
+        depart_id = request.args.get('depart_id', 0, type=int)
         filters = []
         if depart_id != 0:
             filters.append(User.depart_id == depart_id)
