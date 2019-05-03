@@ -44,7 +44,8 @@ def upload():
             return redirect(request.url)
         task_name_third = request.form.get('task_name_third')
         if f and allowed_file(f.filename):
-            if Photo.query.filter(Photo.raw_filename == f.filename).first():
+            filesize = len(f.read())
+            if Photo.query.filter(Photo.filesize == filesize).first():
                 flash('“图片”已存在', 'negative')
                 return redirect(request.url)
             filename = f.filename
@@ -54,7 +55,7 @@ def upload():
             filename_m = resize_image(f, filename, current_app.config['PHOTO_SIZE']['medium'])
             filename_s = resize_image(f, filename, current_app.config['PHOTO_SIZE']['small'])
             photo = Photo(
-                raw_filename=f.filename,
+                filesize=filesize,
                 filename=filename,
                 filename_m=filename_m,
                 filename_s=filename_s,

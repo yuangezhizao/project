@@ -36,7 +36,7 @@ class Photo(db.Model):
     __tablename__ = 'photos'
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.Text)
-    raw_filename = db.Column(db.String(64))
+    filesize = db.Column(db.String(64))
     filename = db.Column(db.String(64))
     filename_m = db.Column(db.String(64))
     filename_s = db.Column(db.String(64))
