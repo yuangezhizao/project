@@ -7,6 +7,7 @@ from flask import Flask, render_template, request, current_app
 from flask_login import current_user
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFError
+from raven.contrib.flask import Sentry
 
 from main.blueprints.admin import admin_bp
 from main.blueprints.auth import auth_bp
@@ -42,6 +43,8 @@ def create_app(config_name=None):
 
 
 def register_extensions(app):
+    sentry = Sentry(app, dsn=app.config['SENTRY_DSN'])
+    sentry.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
     whooshee.init_app(app)
@@ -129,6 +132,7 @@ def register_commands(app):
         admin_user.set_password('admin')
         admin_user.set_role_by_role_name('Administrator')
 
+        '''
         click.echo('设定用户……')
         normal_user = User(email='user@yuangezhizao.cn', name='用户', username='user')
         # 若想 role_id=4，则需注释掉 models/user.py self.set_role_by_role_name()
@@ -145,6 +149,9 @@ def register_commands(app):
         mod_user.set_role_by_role_name('Moderator')
 
         db.session.add_all([admin_user, normal_user, ins_user, mod_user])
+        '''
+
+        db.session.add(admin_user)
         db.session.commit()
 
         click.echo('设定完成！')
