@@ -14,6 +14,7 @@ else:
 
 class BaseConfig:
     SECRET_KEY = os.getenv('SECRET_KEY', 'esterTion')
+    SENTRY_DSN = os.getenv('SENTRY_DSN')
 
     UPLOAD_PATH = os.path.join(basedir, 'uploads')
 
