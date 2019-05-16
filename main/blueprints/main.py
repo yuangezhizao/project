@@ -44,7 +44,7 @@ def intro():
 
 @main_bp.route('/index')
 def index():
-    notice = '【190410】开放测试'
+    notice = '【190516】更新日志不定时更新'
     return render_template('main/index.html', notice=notice)
 
 
