@@ -69,21 +69,21 @@
     {% if current_user == user %}
         <div class="ui tall stacked segment">
             <h3>管理</h3>
-            <a href="{{ url_for('user.upload') }}" class="ui black button" target='_blank'>素材上传</a>
+            <a href="{{ url_for('user.upload') }}" class="ui black button">素材上传</a>
             {% if current_user.can('RIGISTER') %}
-                <a href="{{ url_for('admin.users_list') }}" class="ui teal button" target='_blank'>管理用户</a>
+                <a href="{{ url_for('admin.users_list') }}" class="ui teal button">管理用户</a>
             {% endif %}
             {% if current_user.can('ADMINISTER') %}
-                <a href="{{ url_for('admin.departs_list') }}" class="ui violet button" target='_blank'>管理部门</a>
+                <a href="{{ url_for('admin.departs_list') }}" class="ui violet button">管理部门</a>
             {% endif %}
             {% if current_user.can('SET_PUBLIC') %}
-                <a href="{{ url_for('ins.photos_list_set_public') }}" class="ui blue button" target='_blank'>设置公开权限</a>
+                <a href="{{ url_for('ins.photos_list_set_public') }}" class="ui blue button">设置公开权限</a>
             {% endif %}
             {% if current_user.can('ADVICE') %}
-                <a href="{{ url_for('ins.photos_list_advice') }}" class="ui brown button" target='_blank'>发表评论意见</a>
+                <a href="{{ url_for('ins.photos_list_advice') }}" class="ui brown button">发表评论意见</a>
             {% endif %}
             {% if current_user.can('COMMENT') %}
-                <a href="{{ url_for('ins.advice_list') }}" class="ui purple button" target='_blank'>查看评论意见</a>
+                <a href="{{ url_for('ins.advice_list') }}" class="ui purple button">查看评论意见</a>
             {% endif %}
         </div>
     {% endif %}
