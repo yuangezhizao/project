@@ -37,9 +37,9 @@ class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.Text)
     filesize = db.Column(db.String(64))
-    filename = db.Column(db.String(64))
-    filename_m = db.Column(db.String(64))
-    filename_s = db.Column(db.String(64))
+    filename = db.Column(db.String(512))
+    filename_m = db.Column(db.String(512))
+    filename_s = db.Column(db.String(512))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     public_status = db.Column(db.Integer, default=0)
 
